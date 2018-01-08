@@ -1,3 +1,11 @@
 <resources>
   <string name="app_name">My Application</string>
+  <string name="title">Le Démineur™.</string>
+  <string name="play_button">Jouer</string>
+  <string name="score_button">Score</string>
+  <string name="easymode_button">Facile</string>
+  <string name="mediummode_button">Moyen</string>
+  <string name="hardmode_button">Difficile</string>
+  <string name="home_toolbarButton">Home</string>
+  <string name="back_toolbarButton">Retour</string>
 </resources>
