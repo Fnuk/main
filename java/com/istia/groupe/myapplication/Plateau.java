@@ -31,6 +31,11 @@ public class Plateau {
         this.rows = rows;
         this.cols = cols;
         this.plateau = new int[rows][cols];
+        for(int i=0; i<this.plateau.length; i++) {
+            for(int j=0; j<this.plateau[i].length; j++) {
+                this.plateau[i][j] = 0;
+            }
+        }
         this.init();
     }
 
@@ -49,9 +54,41 @@ public class Plateau {
         }
         // Initialisation des cases indic
         for(int i=0; i<tabCoordBombes.length; i++) {
-
+            for(int k=-1; k<2; k++) {
+                for(int h=-1; h<2; h++) {
+                    if(k==0 && h==0) {
+                        continue;
+                    } else {
+                        try {
+                            if (this.plateau[tabCoordBombes[i][0] + k][tabCoordBombes[i][1] + h] != -1) {
+                                this.plateau[tabCoordBombes[i][0] + k][tabCoordBombes[i][1] + h] += 1;
+                            }
+                        } catch(ArrayIndexOutOfBoundsException ex) {
+                            continue;
+                        }
+                    }
+                }
+            }
         }
+    }
 
+    @Override
+    public String toString() {
+        String plat = "";
+        for(int i=0; i<this.plateau.length; i++) {
+            for(int j=0; j<this.plateau[i].length; j++) {
+                if(this.plateau[i][j] == -1) {
+                    plat = plat + " " + "B";
+                } else if(this.plateau[i][j] == 0) {
+                    plat = plat + " " + ".";
+                } else {
+                    plat = plat + " " + this.plateau[i][j];
+                }
+
+            }
+            plat = plat + "\n";
+        }
+        return plat;
     }
 
 

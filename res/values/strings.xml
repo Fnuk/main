@@ -1,6 +1,6 @@
 <resources>
   <string name="app_name">My Application</string>
-  <string name="title">Le Démineur™.</string>
+  <string name="title">Le Démineur™</string>
   <string name="play_button">Jouer</string>
   <string name="score_button">Score</string>
   <string name="easymode_button">Facile</string>

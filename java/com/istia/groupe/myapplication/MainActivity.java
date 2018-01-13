@@ -10,6 +10,10 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
-      Log.i("TAG", "Modif test git");
+
+//      Test classe plateau
+      Plateau plat = new Plateau(15, 15, 50);
+      Log.i("PLATEAU", plat.toString());
+
   }
 }
