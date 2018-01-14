@@ -13,15 +13,17 @@ public class MainActivity extends AppCompatActivity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
 
+      //      Test classe plateau
+      Plateau plat = new Plateau(15, 15, 50);
+      Log.i("PLATEAU", plat.toString());
+
       FragmentManager fragmentManager = getSupportFragmentManager();
       FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
       Fragment_Plateau fragment = new Fragment_Plateau();
       fragmentTransaction.add(R.id.fragment_container, fragment);
       fragmentTransaction.commit();
 
-      //      Test classe plateau
-      Plateau plat = new Plateau(15, 15, 50);
-      Log.i("PLATEAU", plat.toString());
+
 
   }
 }
