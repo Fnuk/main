@@ -1,6 +1,5 @@
 package com.istia.groupe.myapplication;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -58,8 +57,6 @@ public class CoordsXY {
         }
         return false;
     }
-
-
 
     public int getXYCoordsIndexInArray(ArrayList<CoordsXY> arr) {
         // Retourne l'index

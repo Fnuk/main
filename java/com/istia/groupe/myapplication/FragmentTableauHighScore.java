@@ -1,14 +1,20 @@
-package istia.groupe.myapplication;
+package com.istia.groupe.myapplication;
 
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
 public class FragmentTableauHighScore extends Fragment {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -48,8 +54,15 @@ public class FragmentTableauHighScore extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /* Inflate the layout for this fragment */
-        return inflater.inflate(R.layout.fragment_tableau_high_score, container, false);
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_tableau_high_score, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.tab_high_score_recycler_view);
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+
+        return view;
     }
 
 }

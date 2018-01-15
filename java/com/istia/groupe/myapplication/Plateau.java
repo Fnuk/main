@@ -1,5 +1,7 @@
 package com.istia.groupe.myapplication;
 
+import android.util.Pair;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;

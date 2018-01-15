@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
       plat.init(4,4,3);
       Log.i("PLATEAU", plat.toString());
 
-      FragmentManager fragmentManager = getSupportFragmentManager();
-      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-      Fragment_Plateau fragment = new Fragment_Plateau();
-      fragmentTransaction.add(R.id.fragment_container, fragment);
-      fragmentTransaction.commit();
+//      FragmentManager fragmentManager = getSupportFragmentManager();
+//      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//      Fragment_Plateau fragment = new Fragment_Plateau();
+//      fragmentTransaction.add(R.id.fragment_container, fragment);
+//      fragmentTransaction.commit();
 
   }
 }
