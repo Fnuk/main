@@ -10,7 +10,7 @@
     />
 
   <item
-    android:title="@string/home_toolbarButton"
+    android:title="@string/back_toolbarButton"
     android:id="@+id/back_toolbarAction"
     android:orderInCategory="2"
     app:showAsAction="ifRoom"
