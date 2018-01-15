@@ -19,25 +19,12 @@ public class MainActivity extends AppCompatActivity {
       Plateau plat = Plateau.getInstance();
       plat.init(4,4,3);
       Log.i("PLATEAU", plat.toString());
-      ArrayList<CoordsXY> arr = plat.getBombesListe();
-      boolean hey = true;
-      for(int i=0; i<arr.size(); i++){
-          plat.placeBombFlag(arr.get(i).getX(), arr.get(i).getY());
-          if(hey) {
-              plat.placeBombFlag(0, 0);
-              hey = false;
-          }
-      }
-      Log.i("VICTOIRE", ""+plat.checkVictory());
-
 
       FragmentManager fragmentManager = getSupportFragmentManager();
       FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
       Fragment_Plateau fragment = new Fragment_Plateau();
       fragmentTransaction.add(R.id.fragment_container, fragment);
       fragmentTransaction.commit();
-
-
 
   }
 }

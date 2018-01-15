@@ -17,10 +17,6 @@ public class Plateau {
     private int rows, cols;
     private int nbBombe;
 
-    public ArrayList<CoordsXY> getBombesListe() {
-        return bombesListe;
-    }
-
     private static Plateau instance = null;
 
     /** Point d'accès pour l'instance unique du singleton */
