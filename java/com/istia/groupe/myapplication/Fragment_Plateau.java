@@ -8,6 +8,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.Space;
 import android.util.Log;
 import android.view.Display;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_Plateau extends Fragment implements View.OnClickListener {
+public class Fragment_Plateau extends Fragment {
 
     private View view;
     private GridLayout gridDemineur = null;
@@ -141,23 +142,10 @@ public class Fragment_Plateau extends Fragment implements View.OnClickListener {
         flagButton.setOnTouchListener(listenerSelectType);
 
         bombButton.setOnTouchListener(listenerSelectType);
+
         return view;
     }
 
-    public void onClick(View view){
-        switch(clickChoice){
-            case 0:
-                break;
-            case 1:
-                //imgButton.setImageResource(R.drawable.flag);
-                break;
-            case 2:
-                //imgButton.setImageResource(R.drawable.bomb);
-                break;
-        }
-
-
-    }
 
     View.OnTouchListener listenerSelectType = new View.OnTouchListener() {
         @Override
@@ -190,8 +178,9 @@ public class Fragment_Plateau extends Fragment implements View.OnClickListener {
     public void displaySquare(int x, int y, int idx){
         switch(plateau[x][y]){
             case 0 :
-                Space space = new Space(getContext());
+                TextView space = new TextView(getContext());
                 space.setBackgroundColor(Color.GREEN);
+                space.setText("XX");
                 casesDemineur.get(idx).setVisibility(View.INVISIBLE);
                 gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
