@@ -9,5 +9,5 @@
   <string name="home_toolbarButton">Home</string>
   <string name="back_toolbarButton">Retour</string>
   <string name="title_tab_highscore">High Score</string>
-
+  <string name="nbBombs">XXX</string>
 </resources>
