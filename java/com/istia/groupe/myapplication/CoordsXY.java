@@ -67,5 +67,4 @@ public class CoordsXY {
         }
         return -1;
     }
-
 }

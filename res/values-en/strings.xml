@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">My Application</string>
-  <string name="title"></string>
+  <string name="title">The Démineur™</string>
+  <string name="mediummode_button">Medium</string>
+  <string name="play_button">Play</string>
+  <string name="score_button">High Scores</string>
+  <string name="home_toolbarButton">Home</string>
+  <string name="hardmode_button">Hard</string>
+  <string name="easymode_button">Easy</string>
+  <string name="back_toolbarButton">Back</string>
 </resources>

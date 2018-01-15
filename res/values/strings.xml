@@ -8,6 +8,9 @@
   <string name="hardmode_button">Difficile</string>
   <string name="home_toolbarButton">Home</string>
   <string name="back_toolbarButton">Retour</string>
+<<<<<<< HEAD
   <string name="title_tab_highscore">High Score</string>
   <string name="nbBombs">XXX</string>
+=======
+>>>>>>> ab3e6b811180d9d6d7eea0f476d3e8b8ea54e308
 </resources>
