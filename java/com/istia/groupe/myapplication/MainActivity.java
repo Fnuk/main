@@ -10,34 +10,41 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.fragment_title_screen);
+    //NE PAS EFFACER
     Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
     if(toolbar != null)
     {
       setSupportActionBar(toolbar);
     }
     getSupportActionBar().setDisplayShowTitleEnabled(false);
+    //FIN NE PAS EFFACER
 
 //      Test classe plateau
       /*
       Plateau plat = Plateau.getInstance();
       plat.init(4,4,3);
       Log.i("PLATEAU", plat.toString());
-      ArrayList<CoordsXY> arr = plat.getBombesListe();
-      boolean hey = true;
-      for(int i=0; i<arr.size(); i++){
-          plat.placeBombFlag(arr.get(i).getX(), arr.get(i).getY());
-          if(hey) {
-              plat.placeBombFlag(0, 0);
-              hey = false;
+      for(int i=0; i<plat.getRows(); i++) {
+          for(int j=0; j<plat.getRows(); j++) {
+              int[][] tab = plat.getSafeZone(i, j);
+              if(tab != null){
+                  Log.i("SAFE POSITION", "("+i+","+j+")");
+                  for(int k=0; k<tab.length; k++) {
+                      Log.i("SAFE VOISIN",  "("+tab[k][0]+","+tab[k][1]+")");
+                  }
+              } else {
+                  Log.i("BOMBE", "("+i+","+j+")");
+              }
+
           }
+      }*/
+
 
 
       /*FragmentManager fragmentManager = getSupportFragmentManager();
