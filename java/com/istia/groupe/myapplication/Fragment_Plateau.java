@@ -80,7 +80,6 @@ public class Fragment_Plateau extends Fragment {
         bombButton = (ImageButton)  view.findViewById(R.id.bombButton);
         //layout instantiation
         gridDemineur = (GridLayout) view.findViewById(R.id.GridLayoutDemineur);
-
         gridDemineur.setRowCount(rows);
         gridDemineur.setColumnCount(columns);
 
@@ -131,6 +130,7 @@ public class Fragment_Plateau extends Fragment {
                         bombsCounter.setText(String.valueOf(nbBombs));
                     }
                 });
+                myButton.setBackgroundColor(Color.GRAY);
                 gridDemineur.addView(myButton, (height/rows)/2, (width/columns)/2);
 
 
@@ -176,27 +176,30 @@ public class Fragment_Plateau extends Fragment {
 
 
     public void displaySquare(int x, int y, int idx){
-        switch(plateau[x][y]){
+        switch(plateau[y][x]){
             case 0 :
-                TextView space = new TextView(getContext());
+                /*TextView space = new TextView(getContext());
                 space.setBackgroundColor(Color.GREEN);
-                space.setText("XX");
-                casesDemineur.get(idx).setVisibility(View.INVISIBLE);
-                gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                space.setText("XX");*/
+                casesDemineur.get(idx).setBackgroundColor(Color.GREEN);
+                Log.i("id x et y :", x+"+"+y);
+                //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             case -1 :
-                ImageView image = new ImageView(getContext());
+                /*ImageView image = new ImageView(getContext());
                 image.setImageResource(R.drawable.bomb);
-                image.setBackgroundColor(Color.RED );
-                casesDemineur.get(idx).setVisibility(View.INVISIBLE);
-                gridDemineur.addView(image, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                image.setBackgroundColor(Color.RED );*/
+                casesDemineur.get(idx).setBackgroundColor(Color.RED);
+                Log.i("id x et y :", x+"+"+y);
+                //gridDemineur.addView(image, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             default :
-                TextView howManyBombs = new TextView(getContext());
+                /*TextView howManyBombs = new TextView(getContext());
                 howManyBombs.setText(String.valueOf(plateau[x][y]));
-                howManyBombs.setBackgroundColor(Color.GRAY);
-                casesDemineur.get(idx).setVisibility(View.INVISIBLE);
-                gridDemineur.addView(howManyBombs, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                howManyBombs.setBackgroundColor(Color.GRAY);*/
+                casesDemineur.get(idx).setBackgroundColor(Color.BLUE);
+                Log.i("id x et y :", x+"+"+y);
+                //gridDemineur.addView(howManyBombs, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
         }
     }
