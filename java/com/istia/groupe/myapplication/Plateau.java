@@ -1,7 +1,6 @@
 package com.istia.groupe.myapplication;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,31 +14,31 @@ public class Plateau {
     private int rows, cols;
     private int nbBombe;
 
+    private static Plateau instance = null;
 
-    public Plateau() {
-        this.nbBombe = 15;
-        tabCoordBombes = new int[this.nbBombe][2];
-        this.rows = 10;
-        this.cols = 10;
-        this.plateau = new int[rows][cols];
-        this.init();
+    /** Point d'accès pour l'instance unique du singleton */
+    public static synchronized Plateau getInstance()
+    {
+        if (instance == null)
+        {   instance = new Plateau();
+        }
+        return instance;
     }
 
-    public Plateau(int rows, int cols, int nbBombe) {
-        this.nbBombe = nbBombe;
-        tabCoordBombes = new int[this.nbBombe][2];
+    private Plateau() {}
+
+    public void init(int rows, int cols, int nbBombe) {
+        // Création des caracs du plateau
         this.rows = rows;
         this.cols = cols;
+        this.setNbBombe(nbBombe);
+        tabCoordBombes = new int[this.nbBombe][2];
         this.plateau = new int[rows][cols];
         for(int i=0; i<this.plateau.length; i++) {
             for(int j=0; j<this.plateau[i].length; j++) {
                 this.plateau[i][j] = 0;
             }
         }
-        this.init();
-    }
-
-    private void init() {
         // Initialisation des bombes
         Random randGen = new Random();
         int row, col;
@@ -52,23 +51,104 @@ public class Plateau {
             tabCoordBombes[i][0] = row;
             tabCoordBombes[i][1] = col;
         }
-        // Initialisation des cases indic
+
+        // Initialisation des cases indic : parcours des cases bombes pour mettre à jour les cases adjacentes
         for(int i=0; i<tabCoordBombes.length; i++) {
+            //Parcours des cases adjacentes
             for(int k=-1; k<2; k++) {
                 for(int h=-1; h<2; h++) {
+                    // k=0, h=0 -> case bombe
                     if(k==0 && h==0) {
                         continue;
                     } else {
                         try {
+                            // Si la case est une bombe on ne fait rien sinon on ajoute 1 à la case
                             if (this.plateau[tabCoordBombes[i][0] + k][tabCoordBombes[i][1] + h] != -1) {
                                 this.plateau[tabCoordBombes[i][0] + k][tabCoordBombes[i][1] + h] += 1;
                             }
                         } catch(ArrayIndexOutOfBoundsException ex) {
+                            // Si la case est sur le bord
                             continue;
                         }
                     }
                 }
             }
+        }
+    }
+
+    public int[][] getSafeZone(int xpos, int ypos) {
+        // Méthode prenant en entrée une une case de coordonnées (x,y) et renvoyant sous forme de int[][]:
+        // null si case entrée == -1
+        // une seule case si 0 < case entrée < 9
+        // un tableau de cases si case entrée == 0
+        if(this.plateau[xpos][ypos] == 0) {
+            ArrayList<CoordsXY> casesSafe = new ArrayList<>();
+            getSafeNeighbours(xpos, ypos, casesSafe);
+            return CoordsXY.List2Array(casesSafe);
+        } else if(this.plateau[xpos][ypos] == -1) {
+            return null;
+        } else {
+            int[][] safeZone = new int[1][2];
+            safeZone[0][0] = xpos;
+            safeZone[0][1] = ypos;
+            return safeZone;
+        }
+    }
+
+    private void getSafeNeighbours(int xpos, int ypos, ArrayList<CoordsXY> safeCoordslist) {
+        CoordsXY xy;
+        for(int k=-1; k < 2; k++) {
+            for (int h = -1; h < 2; h++) {
+                try {
+                    xy = new CoordsXY(xpos+k, ypos+h);
+                    if(!xy.inArray(safeCoordslist)) {
+                        if(this.plateau[xpos+k][ypos+h] == 0) {
+                            safeCoordslist.add(new CoordsXY(xpos+k, ypos+h));
+                            getSafeNeighbours(xpos+k, ypos+h, safeCoordslist);
+                        } else if(this.plateau[xpos+k][ypos+h] > 0 && this.plateau[xpos+k][ypos+h] < 9) {
+                            safeCoordslist.add(new CoordsXY(xpos+k, ypos+h));
+                        }
+                    }
+                } catch(ArrayIndexOutOfBoundsException ex) {
+                    continue;
+                }
+            }
+        }
+    }
+
+    public int[][] getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(int[][] plateau) {
+        this.plateau = plateau;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public void setCols(int cols) {
+        this.cols = cols;
+    }
+
+    public int getNbBombe() {
+        return nbBombe;
+    }
+
+    public void setNbBombe(int nbBombe) {
+        if(nbBombe < this.rows * this.cols){
+            this.nbBombe = nbBombe;
+        } else {
+            this.nbBombe = (int) this.rows * this.cols / 2;
         }
     }
 
