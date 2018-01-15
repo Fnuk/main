@@ -3,12 +3,14 @@ package com.istia.groupe.myapplication;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -20,16 +22,16 @@ import android.widget.ImageButton;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_Plateau extends Fragment {
+public class Fragment_Plateau extends Fragment implements View.OnClickListener {
 
-    View view;
-    GridLayout gridDemineur = null;
-    int rows = 8;
-    int columns = 8;
-    int height, width;
-    Point size = new Point();
-    int clickChoice = 0;
-    ImageButton handButton = null,
+    private View view;
+    private GridLayout gridDemineur = null;
+    private int rows = 8;
+    private int columns = 8;
+    private int height, width;
+    private Point size = new Point();
+    private int clickChoice = 0;
+    private ImageButton handButton = null,
             flagButton = null,
             bombButton = null;
 
@@ -56,7 +58,7 @@ public class Fragment_Plateau extends Fragment {
         handButton = (ImageButton)  view.findViewById(R.id.clickButton);
         flagButton = (ImageButton)  view.findViewById(R.id.flagButton);
         bombButton = (ImageButton)  view.findViewById(R.id.bombButton);
-        //layout instatiation
+        //layout instantiation
         gridDemineur = (GridLayout) view.findViewById(R.id.GridLayoutDemineur);
 
         gridDemineur.setRowCount(rows);
@@ -65,37 +67,44 @@ public class Fragment_Plateau extends Fragment {
 
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                ImageButton myButton = new ImageButton(this.getContext());
-                myButton.setOnClickListener(new View.OnClickListener() {
+                final ImageButton myButton = new ImageButton(this.getContext());
+                myButton.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch(clickChoice) {
+                            case 0:
+                                break;
+                            case 1:
+                                if(myButton.isEnabled()) {
+                                    myButton.setImageResource(R.drawable.flag);
+                                    myButton.setEnabled(false);
+                                }else{
+                                    myButton.setImageResource(android.R.color.transparent);
+                                    myButton.setEnabled(true);
+                                }
+                                break;
+                            case 2:
+                                if(myButton.isEnabled()) {
+                                    myButton.setImageResource(R.drawable.bomb);
+                                    myButton.setEnabled(false);
+                                }else{
+                                    myButton.setImageResource(android.R.color.transparent);
+                                    myButton.setEnabled(true);
+                                }
+                                break;
+                        }
+                        return false;
                     }
                 });
                 gridDemineur.addView(myButton, (height/rows)/2, (width/columns)/2);
             }
         }
 
-        handButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickChoice = 0;
-            }
-        });
+        handButton.setOnTouchListener(listenerSelectType);
 
-        flagButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickChoice = 1;
-            }
-        });
+        flagButton.setOnTouchListener(listenerSelectType);
 
-        bombButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickChoice = 2;
-            }
-        });
+        bombButton.setOnTouchListener(listenerSelectType);
         return view;
     }
 
@@ -113,6 +122,33 @@ public class Fragment_Plateau extends Fragment {
 
 
     }
+
+    View.OnTouchListener listenerSelectType = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (v.getId()){
+                case (R.id.clickButton) :
+                    handButton.setPressed(true);
+                    flagButton.setPressed(false);
+                    bombButton.setPressed(false);
+                    clickChoice = 0;
+                    break;
+                case (R.id.flagButton) :
+                    handButton.setPressed(false);
+                    flagButton.setPressed(true);
+                    bombButton.setPressed(false);
+                    clickChoice = 1;
+                    break;
+                case (R.id.bombButton) :
+                    handButton.setPressed(false);
+                    flagButton.setPressed(false);
+                    bombButton.setPressed(true);
+                    clickChoice = 2;
+                    break;
+            }
+            return true;
+        }
+    };
 
 
     public void setRows(int rows){
