@@ -1,5 +1,6 @@
 package com.istia.groupe.myapplication;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,9 +11,15 @@ import java.util.Random;
 public class Plateau {
 
     private int[][] plateau; // Case vide : 0 ; Case bombe : -1 ; Case indic : {1,2,3,4,5,6,7,8}
-    private int[][] tabCoordBombes; // Tableau de dimensions [nbBombe][2] contenant coord des bombes
+    private ArrayList<CoordsXY> bombesListe; // Liste contenant les cases des bombes
+    private ArrayList<CoordsXY> correctFlaggedCases; // Liste des cases BOMBES ayant un indicateur flag(bombe) placé par le joueur
+    private ArrayList<CoordsXY> incorrectFlaggedCases; // Liste des cases NON BOMBES ayant un indicateur flag(bombe) placé par le joueur
     private int rows, cols;
     private int nbBombe;
+
+    public ArrayList<CoordsXY> getBombesListe() {
+        return bombesListe;
+    }
 
     private static Plateau instance = null;
 
@@ -32,7 +39,9 @@ public class Plateau {
         this.rows = rows;
         this.cols = cols;
         this.setNbBombe(nbBombe);
-        tabCoordBombes = new int[this.nbBombe][2];
+        bombesListe = new ArrayList<>();
+        correctFlaggedCases = new ArrayList<>();
+        incorrectFlaggedCases = new ArrayList<>();
         this.plateau = new int[rows][cols];
         for(int i=0; i<this.plateau.length; i++) {
             for(int j=0; j<this.plateau[i].length; j++) {
@@ -48,12 +57,11 @@ public class Plateau {
                 col = randGen.nextInt(this.cols);
             }while(plateau[row][col] == -1);
             plateau[row][col] = -1;
-            tabCoordBombes[i][0] = row;
-            tabCoordBombes[i][1] = col;
+            bombesListe.add(new CoordsXY(row, col));
         }
 
         // Initialisation des cases indic : parcours des cases bombes pour mettre à jour les cases adjacentes
-        for(int i=0; i<tabCoordBombes.length; i++) {
+        for(CoordsXY xy : bombesListe) {
             //Parcours des cases adjacentes
             for(int k=-1; k<2; k++) {
                 for(int h=-1; h<2; h++) {
@@ -63,8 +71,8 @@ public class Plateau {
                     } else {
                         try {
                             // Si la case est une bombe on ne fait rien sinon on ajoute 1 à la case
-                            if (this.plateau[tabCoordBombes[i][0] + k][tabCoordBombes[i][1] + h] != -1) {
-                                this.plateau[tabCoordBombes[i][0] + k][tabCoordBombes[i][1] + h] += 1;
+                            if (this.plateau[xy.getX() + k][xy.getY() + h] != -1) {
+                                this.plateau[xy.getX() + k][xy.getY() + h] += 1;
                             }
                         } catch(ArrayIndexOutOfBoundsException ex) {
                             // Si la case est sur le bord
@@ -116,6 +124,38 @@ public class Plateau {
         }
     }
 
+    public void placeBombFlag(int xpos, int ypos) {
+        if(this.plateau[xpos][ypos] == -1) {
+            correctFlaggedCases.add(new CoordsXY(xpos, ypos));
+        } else {
+            incorrectFlaggedCases.add(new CoordsXY(xpos, ypos));
+        }
+    }
+
+    public void removeBombFlag(int xpos, int ypos) {
+        CoordsXY xy = new CoordsXY(xpos, ypos);
+        if(this.plateau[xpos][ypos] == -1) {
+            int index = xy.getXYCoordsIndexInArray(correctFlaggedCases);
+            if(index != -1) {
+                correctFlaggedCases.remove(index);
+            }
+        } else {
+            int index = xy.getXYCoordsIndexInArray(incorrectFlaggedCases);
+            if(index != -1) {
+                correctFlaggedCases.remove(index);
+            }
+        }
+    }
+
+    public boolean checkVictory() {
+        if(correctFlaggedCases.size() == bombesListe.size() && incorrectFlaggedCases.size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+//    GETTERS ; SETTERS
     public int[][] getPlateau() {
         return plateau;
     }
@@ -170,6 +210,5 @@ public class Plateau {
         }
         return plat;
     }
-
 
 }
