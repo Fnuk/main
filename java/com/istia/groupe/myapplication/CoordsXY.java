@@ -59,4 +59,16 @@ public class CoordsXY {
         return false;
     }
 
+
+
+    public int getXYCoordsIndexInArray(ArrayList<CoordsXY> arr) {
+        // Retourne l'index
+        for(int i=0; i<arr.size(); i++) {
+            if(this.equals(arr.get(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }
