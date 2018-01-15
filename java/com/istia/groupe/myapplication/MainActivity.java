@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
+  //NE PAS EFFACER
   @Override
   public boolean onCreateOptionsMenu(Menu menu)
   {
@@ -79,4 +80,5 @@ public class MainActivity extends AppCompatActivity {
     }
     return true;
   }
+  //FIN NE PAS EFFACER
 }
