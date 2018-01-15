@@ -8,4 +8,5 @@
   <string name="hardmode_button">Difficile</string>
   <string name="home_toolbarButton">Home</string>
   <string name="back_toolbarButton">Retour</string>
+  <string name="nbBombs">XXX</string>
 </resources>
