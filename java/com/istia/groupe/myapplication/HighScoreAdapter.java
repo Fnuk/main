@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
 
 /**
  * Created by cgachet on 15/01/2018.
@@ -15,7 +15,7 @@ import org.w3c.dom.Text;
 
 public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>{
 
-    Long[] times;
+    ArrayList<Long> times;
 
     public static class HighScoreViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewNum;
@@ -27,7 +27,7 @@ public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.High
         }
     }
 
-    public HighScoreAdapter(Long[] datas) {
+    public HighScoreAdapter(ArrayList<Long> datas) {
         this.times = datas;
     }
 
@@ -46,13 +46,13 @@ public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.High
     public void onBindViewHolder(HighScoreViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textViewTime.setText(Long.toString(times[position]));
+        holder.textViewTime.setText(Long.toString(times.get(position)));
         holder.textViewNum.setText(Integer.toString(position+1));
     }
 
     @Override
     public int getItemCount() {
-        return times.length;
+        return times.size();
     }
 
 

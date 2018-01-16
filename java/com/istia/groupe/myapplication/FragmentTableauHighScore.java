@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -24,7 +26,8 @@ public class FragmentTableauHighScore extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private int maxNumberOfHighScore = 3;
-    private Long[] highScores;
+    private ArrayList<Long> highScores;
+    private Button leftArrow, rightArrow;
 
     public static FragmentTableauHighScore newInstance(String difficulty) {
         Bundle args = new Bundle();
@@ -54,10 +57,44 @@ public class FragmentTableauHighScore extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         // specify an adapter
-        ArrayList<Long> holder = getHighScores(difficulty);
-        highScores = holder.toArray(new Long[holder.size()]);
-        adapter = new HighScoreAdapter(highScores); // Récuperer les données bia SharedPref
+        this.difficulty = "facile";
+        highScores = getHighScores(this.difficulty);
+
+        adapter = new HighScoreAdapter(highScores);
         recyclerView.setAdapter(adapter);
+        leftArrow = (Button) view.findViewById(R.id.tab_high_score_btn_left_arrow);
+        rightArrow = (Button) view.findViewById(R.id.tab_high_score_btn_right_arrow);
+        leftArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (difficulty) {
+                    case "moyen":
+                        difficulty = "facile";
+                        highScores = getHighScores(difficulty);
+                        break;
+                    case "difficile":
+                        difficulty = "moyen";
+                        highScores = getHighScores(difficulty);
+                        break;
+                }
+            }
+        });
+        rightArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (difficulty) {
+                    case "facile":
+                        difficulty = "moyen";
+                        highScores = getHighScores(difficulty);
+                        break;
+                    case "moyen":
+                        difficulty = "difficile";
+                        highScores = getHighScores(difficulty);
+                        break;
+                }
+            }
+        });
+
         return view;
     }
 
@@ -66,7 +103,7 @@ public class FragmentTableauHighScore extends Fragment {
         Long t = 0L;
         int place = 1;
         ArrayList<Long> ranking = new ArrayList<>();
-        Context context = getActivity();
+        Context context = getContext();
         SharedPreferences sharedPref = context.getSharedPreferences(
                 getString(R.string.high_score_save_file), Context.MODE_PRIVATE);
         if(!this.difficulty.equals("custom")) {
@@ -90,13 +127,13 @@ public class FragmentTableauHighScore extends Fragment {
         }
     }
 
-    public void saveScore(long time) {
-        Context context = getActivity();
+    public void saveScore(long time, String difficulty) {
+        Context context = getContext();
         SharedPreferences sharedPref = context.getSharedPreferences(
                 getString(R.string.high_score_save_file), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        ArrayList<Long> ranking = getHighScores(this.difficulty);
+        ArrayList<Long> ranking = getHighScores(difficulty);
         ranking.add(time);
         // On trie la nouvelle liste des classements
         Collections.sort(ranking);
