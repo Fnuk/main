@@ -129,17 +129,28 @@ public class Fragment_Plateau extends Fragment {
                             case 0:
                                 if(!myButton.isMarked()) {
                                     displaySquare(myButton.getCoordX(), myButton.getCoordY(), casesDemineur.indexOf(myButton));
+                                    int[][] safeZone = Plateau.getInstance().getSafeZone(myButton.getCoordX(),myButton.getCoordY());
+                                    for(int i = 0; i < safeZone.length; i++){
+                                        int safeZoneX = safeZone[i][0];
+                                        int safeZoneY = safeZone[i][1];
+                                        displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
+                                    }
                                 }
                                 break;
                             case 1:
                                 if(!myButton.isMarked()) {
                                     //On affiche l'indicateur
                                     myButton.setImageResource(R.drawable.flag);
+                                    Plateau.getInstance().placeBombFlag(myButton.getCoordX(), myButton.getCoordY());
                                     nbBombs--;
                                 }else{
                                     //On retire l'image
                                     myButton.setImageResource(0);
+                                    Plateau.getInstance().removeBombFlag(myButton.getCoordX(), myButton.getCoordY());
                                     nbBombs++;
+                                }
+                                if(Plateau.getInstance().checkVictory()){
+                                    Toast.makeText(getContext(), "Victoire", Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             case 2:
@@ -210,20 +221,6 @@ public class Fragment_Plateau extends Fragment {
                 space.setBackgroundColor(Color.GREEN);
                 space.setText("XX");*/
                 casesDemineur.get(idx).setBackgroundColor(Color.GREEN);
-                int[][] safeZone = Plateau.getInstance().getSafeZone(x,y);
-                for(int i = 0; i < safeZone.length; i++){
-                    int safeZoneX = safeZone[i][0];
-                    int safeZoneY = safeZone[i][1];
-                    displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
-                }
-                /*lookUntilNumber(x, y-1);
-                lookUntilNumber(x+1,y-1);
-                lookUntilNumber(x+1,y);
-                lookUntilNumber(x+1,y+1);
-                lookUntilNumber(x,y+1);
-                lookUntilNumber(x-1,y+1);
-                lookUntilNumber(x-1,y);
-                lookUntilNumber(x-1,y-1);*/
                 //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             case -1 :
@@ -254,9 +251,10 @@ public class Fragment_Plateau extends Fragment {
     private int findButtonId(int x, int y){
         int idx = -1;
         for(DemineurButton db : casesDemineur){
-            if(db.getCoordX() == x && db.getCoordY()== y)
-                Log.i("ID :", db.getId()+"");
+            if(db.getCoordX() == x && db.getCoordY()== y) {
+                Log.i("ID :", db.getId() + "");
                 idx = casesDemineur.indexOf(db);
+            }
         }
 
         return idx;
