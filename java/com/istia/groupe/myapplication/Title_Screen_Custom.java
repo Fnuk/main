@@ -13,11 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-public class Title_Screen_ChooseDif extends Fragment implements View.OnClickListener
+public class Title_Screen_Custom extends Fragment implements View.OnClickListener
 {
-  public Title_Screen_ChooseDif()
+
+  EditText rowEditText, colEditText, bombEditText;
+
+  public Title_Screen_Custom()
   {
     //Required empty public constructor
   }
@@ -26,27 +30,24 @@ public class Title_Screen_ChooseDif extends Fragment implements View.OnClickList
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
   {
     View view;
-    Button easyButton, mediumButton, hardButton, customButton;
+    Button playButton;
 
     // Inflate the layout for this fragment
-    view = inflater.inflate(R.layout.fragment_title_screen_choosedifficulty, container, false);
+    view = inflater.inflate(R.layout.fragment_title_screen_custom, container, false);
     setHasOptionsMenu(true);
 
-    Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar_titledif);
+    Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar_titlecustom);
     if(toolbar != null)
     {
       ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
       ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    easyButton = (Button) view.findViewById(R.id.easy_titleButton);
-    easyButton.setOnClickListener(this);
-    mediumButton = (Button) view.findViewById(R.id.medium_titleButton);
-    mediumButton.setOnClickListener(this);
-    hardButton = (Button) view.findViewById(R.id.hard_titleButton);
-    hardButton.setOnClickListener(this);
-    customButton = (Button) view.findViewById(R.id.custom_titleButton);
-    customButton.setOnClickListener(this);
+    playButton = (Button) view.findViewById(R.id.customplay_button);
+    playButton.setOnClickListener(this);
+    rowEditText = (EditText) view.findViewById(R.id.edittext_rows);
+    colEditText = (EditText) view.findViewById(R.id.edittext_cols);
+    bombEditText = (EditText) view.findViewById(R.id.edittext_bombs);
 
     return view;
   }
@@ -55,30 +56,33 @@ public class Title_Screen_ChooseDif extends Fragment implements View.OnClickList
   public void onClick(View v) {
     Plateau plat = Plateau.getInstance();
 
-    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction;
+    String row, col, bombs;
+    boolean isOneEmpty = true;
+
     switch (v.getId())
     {
-      case R.id.easy_titleButton:
-        plat.init(8, 8, 10);
-        break;
-      case R.id.medium_titleButton:
-        plat.init(16, 16, 40);
-        break;
-      case R.id.hard_titleButton:
-        plat.init(32, 16, 99);
-        break;
-      case R.id.custom_titleButton:
-        fragmentTransaction = fragmentManager.beginTransaction();
-        Title_Screen_Custom fragment_titlecustom = new Title_Screen_Custom();
-        fragmentTransaction.replace(R.id.fragment_container, fragment_titlecustom);
+      case R.id.customplay_button:
+        row = rowEditText.getText().toString();
+        col = colEditText.getText().toString();
+        bombs = bombEditText.getText().toString();
+
+        isOneEmpty = row.isEmpty() || col.isEmpty() || bombs.isEmpty();
+
+        if(!isOneEmpty) plat.init(Integer.parseInt(row), Integer.parseInt(col), Integer.parseInt(bombs));
+        else
+        {
+          Toast.makeText(getContext(), getResources().getText(R.string.pleasefillall), Toast.LENGTH_LONG).show();
+          return;
+        }
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment_Plateau fragment = new Fragment_Plateau();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-        return;
+
+        break;
     }
-    fragmentTransaction = fragmentManager.beginTransaction();
-    Fragment_Plateau fragment_plateau = new Fragment_Plateau();
-    fragmentTransaction.replace(R.id.fragment_container, fragment_plateau);
-    fragmentTransaction.commit();
   }
 
   @Override

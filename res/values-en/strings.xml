@@ -11,4 +11,9 @@
   <string name="back_toolbarButton">Back</string>
   <string name="reset_toolbarButton">Reset</string>
   <string name="custommode_button">Custom</string>
+  <string name="specify_title">Specify the board size:</string>
+  <string name="rows">Rows:</string>
+  <string name="col">Columns:</string>
+  <string name="nbBombs">Number of bombs:</string>
+  <string name="pleasefillall">Please complete all fields.</string>
 </resources>
