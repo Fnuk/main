@@ -9,6 +9,7 @@
     <string name="home_toolbarButton">Home</string>
     <string name="back_toolbarButton">Retour</string>
     <string name="nbBombs">Number of bombs:</string>
+	<string name="high_score_save_file">com.istia.groupe.myapplication.HIGH_SCORE_FILE_KEY</string>
     <string name="reset_toolbarButton">Reset</string>
     <string name="custommode_button">Custom</string>
     <string name="specify_title">Specify the board size:</string>

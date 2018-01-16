@@ -1,6 +1,5 @@
 package com.istia.groupe.myapplication;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +41,7 @@ public class CoordsXY {
         Y = y;
     }
 
-    public boolean equals(CoordsXY xy) {
+    public boolean egal(CoordsXY xy) {
         if(xy.getX() == this.getX() && xy.getY() == this.getY()) {
             return true;
         } else {
@@ -52,23 +51,24 @@ public class CoordsXY {
 
     public boolean inArray(ArrayList<CoordsXY> arr) {
         for(CoordsXY xy : arr) {
-            if(this.equals(xy)) {
+            if(this.egal(xy)) {
                 return true;
             }
         }
         return false;
     }
 
-
-
     public int getXYCoordsIndexInArray(ArrayList<CoordsXY> arr) {
         // Retourne l'index
         for(int i=0; i<arr.size(); i++) {
-            if(this.equals(arr.get(i))) {
+            if(this.egal(arr.get(i))) {
                 return i;
             }
         }
         return -1;
     }
 
+    public String toString() {
+        return "("+this.getX()+" , "+this.getY()+")";
+    }
 }
