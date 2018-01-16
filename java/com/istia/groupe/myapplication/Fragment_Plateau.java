@@ -170,8 +170,6 @@ public class Fragment_Plateau extends Fragment {
                         bombsCounter.setText(String.valueOf(nbBombs));
                     }
                 });
-                //myButton.setBackgroundColor(Color.GRAY);
-                //gridDemineur.addView(myButton);
             }
         }
 
@@ -223,24 +221,15 @@ public class Fragment_Plateau extends Fragment {
     public void displaySquare(int x, int y, int idx){
         switch(plateau[x][y]){
             case 0 :
-                /*TextView space = new TextView(getContext());
-                space.setBackgroundColor(Color.GREEN);
-                space.setText("XX");*/
                 casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
-                //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                casesDemineur.get(idx).setEnabled(false);
                 break;
             case -1 :
-                /*ImageView image = new ImageView(getContext());
-                image.setImageResource(R.drawable.bomb);
-                image.setBackgroundColor(Color.RED );*/
                 casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
                 casesDemineur.get(idx).setImageResource(R.drawable.bomb);
-                //gridDemineur.addView(image, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                casesDemineur.get(idx).setScaleType(ImageView.ScaleType.FIT_XY);
                 break;
             default :
-                /*TextView howManyBombs = new TextView(getContext());
-                howManyBombs.setText(String.valueOf(plateau[x][y]));
-                howManyBombs.setBackgroundColor(Color.GRAY);*/
                 casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
                 switch(plateau[x][y]){
                     case 1 :
@@ -269,7 +258,7 @@ public class Fragment_Plateau extends Fragment {
                         break;
 
                 }
-                //gridDemineur.addView(howManyBombs, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                casesDemineur.get(idx).setEnabled(false);
                 break;
         }
     }
@@ -290,20 +279,34 @@ public class Fragment_Plateau extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(msg);
         builder.setCancelable(false);
-        builder.setPositiveButton(pos, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setNegativeButton(neg, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
+        builder.setPositiveButton(pos, DialogListenerPos);
+        builder.setNegativeButton(neg, DialogListenerNeg);
         builder.create().show();
     }
+
+    DialogInterface.OnClickListener DialogListenerPos = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction;
+            fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment_Plateau fragment_plateau = new Fragment_Plateau();
+            fragmentTransaction.replace(R.id.fragment_container, fragment_plateau);
+            fragmentTransaction.commit();
+        }
+    };
+
+    DialogInterface.OnClickListener DialogListenerNeg = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction;
+            fragmentTransaction = fragmentManager.beginTransaction();
+            Title_Screen fragment = new Title_Screen();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
+        }
+    };
 
     private int createId(int a, int b){
         String id = a+""+b;

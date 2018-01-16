@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class CellAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //adapt size of cell to screen
-        buttons.get(position).setMinimumHeight((height/((int)Math.sqrt(buttons.size())))/2);
+        buttons.get(position).setScaleType(ImageView.ScaleType.FIT_XY);
+        buttons.get(position).setMinimumHeight(((height/2)/((int)Math.sqrt(buttons.size())))+10);
         return buttons.get(position);
     }
 
