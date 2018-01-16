@@ -176,9 +176,11 @@ public class Fragment_Plateau extends Fragment {
                                 }
                                 break;
                             case 2:
-                                if (!myButton.isMarked()) {
-                                    myButton.setImageResource(R.drawable.question);
-                                } else {
+
+                                if(!myButton.isMarked()) {
+                                    myButton.setBackgroundResource(R.drawable.question);
+                                    myButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                }else{
                                     myButton.setImageResource(0);
                                 }
                                 break;
