@@ -9,4 +9,6 @@
     <string name="home_toolbarButton">Home</string>
     <string name="back_toolbarButton">Retour</string>
     <string name="nbBombs">XXX</string>
+    <string name="reset_toolbarButton">Reset</string>
+    <string name="custommode_button">Custom</string>
 </resources>

@@ -11,7 +11,7 @@
   tools:context="com.istia.groupe.myapplication.MainActivity">
 
   <android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar_title"
+    android:id="@+id/toolbar_titledif"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
@@ -57,23 +57,67 @@
     android:layout_weight="1"
     android:gravity="center"/>
 
-  <Button
-    android:id="@+id/play_titleButton"
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
-    android:textSize="25sp"
-    android:text="@string/play_button"
-    />
+    android:gravity="center"
+    android:background="@color/greyDemineur"
+    tools:context="com.istia.groupe.myapplication.MainActivity">
 
-  <Button
-    android:id="@+id/highscores_titleButton"
+    <Button
+      android:id="@+id/easy_titleButton"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:text="@string/easymode_button"
+      />
+
+    <Button
+      android:id="@+id/medium_titleButton"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:text="@string/mediummode_button"
+      />
+
+  </LinearLayout>
+
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="0dp"
+    android:gravity="center"
+    android:background="@color/greyDemineur"
     android:layout_weight="1"
-    android:textSize="25sp"
-    android:text="@string/score_button"
-    />
+    tools:context="com.istia.groupe.myapplication.MainActivity">
+
+    <Button
+      android:id="@+id/hard_titleButton"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:text="@string/hardmode_button"
+      />
+
+    <Button
+      android:id="@+id/custom_titleButton"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:text="@string/custommode_button"
+      />
+
+  </LinearLayout>
 
   <Space
     android:layout_width="match_parent"
