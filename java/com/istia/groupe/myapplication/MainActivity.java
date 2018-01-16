@@ -14,8 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//    Title_Screen fragment = new Title_Screen();
-    FragmentTableauHighScore fragment = FragmentTableauHighScore.newInstance("facile");
+    Title_Screen fragment = new Title_Screen();
+//    FragmentTableauHighScore fragment = FragmentTableauHighScore.newInstance("facile");
     fragmentTransaction.add(R.id.fragment_container, fragment);
     fragmentTransaction.commit();
   }

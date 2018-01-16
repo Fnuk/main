@@ -2,6 +2,7 @@ package com.istia.groupe.myapplication;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -37,7 +38,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -123,6 +126,7 @@ public class Fragment_Plateau extends Fragment {
                 myButton.setId(createId(myButton.getCoordX(), myButton.getCoordY()));
                 casesDemineur.add(myButton);
 
+
                 //On ajoute la fonction au bouton
                 myButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -156,6 +160,7 @@ public class Fragment_Plateau extends Fragment {
                                     nbBombs++;
                                 }
                                 if(Plateau.getInstance().checkVictory()){
+                                    PreferenceManager.getInstance().saveScore(3L, Plateau.getInstance().getDifficulty() , getActivity());
                                     createAlertDialog("Vous avez gagné !", "Recommencer", "Accueil");
                                 }
                                 break;
@@ -343,7 +348,7 @@ public class Fragment_Plateau extends Fragment {
                 fragmentTransaction.commit();
                 break;
             case R.id.reset_toolbarAction:
-                p.init(p.getRows(), p.getCols(), p.getNbBombe());
+                p.init(p.getRows(), p.getCols(), p.getNbBombe(), p.getDifficulty());
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -352,7 +357,7 @@ public class Fragment_Plateau extends Fragment {
                 fragmentTransaction.commit();
                 break;
             case R.id.easy_toolbarAction:
-                p.init(8, 8, 10);
+                p.init(8, 8, 10, "facile");
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -361,7 +366,7 @@ public class Fragment_Plateau extends Fragment {
                 fragmentTransaction.commit();
                 break;
             case R.id.medium_toolbarAction:
-                p.init(16, 16, 40);
+                p.init(16, 16, 40, "medium");
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -370,7 +375,7 @@ public class Fragment_Plateau extends Fragment {
                 fragmentTransaction.commit();
                 break;
             case R.id.hard_toolbarAction:
-                p.init(32, 16, 99);
+                p.init(32, 16, 99, "difficile");
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -382,4 +387,5 @@ public class Fragment_Plateau extends Fragment {
         return true;
     }
     //FIN NE PAS SUPPRIMER
+
 }
