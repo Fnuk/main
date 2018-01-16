@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ import java.util.List;
 public class Fragment_Plateau extends Fragment {
 
     private View view;
-    private GridLayout gridDemineur = null;
+    private GridView gridDemineur = null;
     private int rows = 8;
     private int columns = 8;
     private int height, width, nbBombs;
@@ -66,11 +67,11 @@ public class Fragment_Plateau extends Fragment {
         view = inflater.inflate(R.layout.fragment_fragment__plateau, container, false);
 
         //Getting the size of the screen
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        /*WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         final Display display = wm.getDefaultDisplay();
         display.getSize(size);
         height = size.y;
-        width = size.x;
+        width = size.x;*/
 
         //Textview
         bombsCounter = (TextView) view.findViewById(R.id.BombsCounter);
@@ -79,9 +80,10 @@ public class Fragment_Plateau extends Fragment {
         flagButton = (ImageButton)  view.findViewById(R.id.flagButton);
         bombButton = (ImageButton)  view.findViewById(R.id.bombButton);
         //layout instantiation
-        gridDemineur = (GridLayout) view.findViewById(R.id.GridLayoutDemineur);
-        gridDemineur.setRowCount(rows);
-        gridDemineur.setColumnCount(columns);
+        gridDemineur = (GridView) view.findViewById(R.id.GridViewDemineur);
+
+        //gridDemineur.setRowCount(rows);
+        //gridDemineur.setColumnCount(columns);
 
         //affichage du nombre initial de bombes
         nbBombs = Plateau.getInstance().getNbBombe();
@@ -90,12 +92,15 @@ public class Fragment_Plateau extends Fragment {
         //création des différentes cases du plateau (UI)
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                //La case de coordonnées x = j et y = i, matérialisé par un bouton
+                //La case de coordonnées x = i et y = j, matérialisé par un bouton
                 final DemineurButton myButton = new DemineurButton(this.getContext());
 
                 //On set les coordonnées du bouton et on l'ajoute à la liste
-                myButton.setCoordX(j);
-                myButton.setCoordY(i);
+                myButton.setCoordX(i);
+                myButton.setCoordY(j);
+                //Setting id for button, if not set equal -1
+                myButton.setId(createId(myButton.getCoordX(), myButton.getCoordY()));
+                Log.i("Id du bouton", myButton.getId()+"");
                 casesDemineur.add(myButton);
 
                 //On ajoute la fonction au bouton
@@ -130,13 +135,18 @@ public class Fragment_Plateau extends Fragment {
                         bombsCounter.setText(String.valueOf(nbBombs));
                     }
                 });
-                myButton.setBackgroundColor(Color.GRAY);
-                gridDemineur.addView(myButton, (height/rows)/2, (width/columns)/2);
-
-
+                //myButton.setBackgroundColor(Color.GRAY);
+                //gridDemineur.addView(myButton);
             }
         }
 
+        //Number of columns
+        gridDemineur.setNumColumns(columns);
+        //set the adapter to display cells in gridView
+        CellAdapter adapter = new CellAdapter(getContext(), casesDemineur);
+        gridDemineur.setAdapter(adapter);
+
+        //Listener for other button
         handButton.setOnTouchListener(listenerSelectType);
 
         flagButton.setOnTouchListener(listenerSelectType);
@@ -146,7 +156,7 @@ public class Fragment_Plateau extends Fragment {
         return view;
     }
 
-
+    //Listener function
     View.OnTouchListener listenerSelectType = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -174,15 +184,28 @@ public class Fragment_Plateau extends Fragment {
         }
     };
 
-
+    //Display a cell
     public void displaySquare(int x, int y, int idx){
-        switch(plateau[y][x]){
+        switch(plateau[x][y]){
             case 0 :
                 /*TextView space = new TextView(getContext());
                 space.setBackgroundColor(Color.GREEN);
                 space.setText("XX");*/
                 casesDemineur.get(idx).setBackgroundColor(Color.GREEN);
-                Log.i("id x et y :", x+"+"+y);
+                int[][] safeZone = Plateau.getInstance().getSafeZone(x,y);
+                for(int i = 0; i < safeZone.length; i++){
+                    int safeZoneX = safeZone[i][0];
+                    int safeZoneY = safeZone[i][1];
+                    displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
+                }
+                /*lookUntilNumber(x, y-1);
+                lookUntilNumber(x+1,y-1);
+                lookUntilNumber(x+1,y);
+                lookUntilNumber(x+1,y+1);
+                lookUntilNumber(x,y+1);
+                lookUntilNumber(x-1,y+1);
+                lookUntilNumber(x-1,y);
+                lookUntilNumber(x-1,y-1);*/
                 //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             case -1 :
@@ -190,7 +213,6 @@ public class Fragment_Plateau extends Fragment {
                 image.setImageResource(R.drawable.bomb);
                 image.setBackgroundColor(Color.RED );*/
                 casesDemineur.get(idx).setBackgroundColor(Color.RED);
-                Log.i("id x et y :", x+"+"+y);
                 //gridDemineur.addView(image, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             default :
@@ -198,7 +220,6 @@ public class Fragment_Plateau extends Fragment {
                 howManyBombs.setText(String.valueOf(plateau[x][y]));
                 howManyBombs.setBackgroundColor(Color.GRAY);*/
                 casesDemineur.get(idx).setBackgroundColor(Color.BLUE);
-                Log.i("id x et y :", x+"+"+y);
                 //gridDemineur.addView(howManyBombs, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
         }
@@ -210,5 +231,28 @@ public class Fragment_Plateau extends Fragment {
 
     public void setColumns(int columns) {
         this.columns = columns;
+    }
+
+    private int findButtonId(int x, int y){
+        int idx = -1;
+        for(DemineurButton db : casesDemineur){
+            if(db.getCoordX() == x && db.getCoordY()== y)
+                Log.i("ID :", db.getId()+"");
+                idx = casesDemineur.indexOf(db);
+        }
+
+        return idx;
+    }
+
+    private void lookUntilNumber(int x, int y){
+        int idx = findButtonId(x,y);
+        if(idx != -1)
+            displaySquare(y, x, idx);
+
+    }
+
+    private int createId(int a, int b){
+        String id = a+""+b;
+        return Integer.parseInt(id);
     }
 }
