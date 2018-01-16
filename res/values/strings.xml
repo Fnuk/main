@@ -10,4 +10,5 @@
   <string name="back_toolbarButton">Retour</string>
   <string name="title_tab_highscore">High Score</string>
   <string name="nbBombs">XXX</string>
+  <string name="high_score_save_file">com.istia.groupe.myapplication.HIGH_SCORE_FILE_KEY</string>
 </resources>

@@ -1,38 +1,43 @@
 package com.istia.groupe.myapplication;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by cgachet on 15/01/2018.
  */
 
-public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.ViewHolder>{
+public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>{
 
-    String[] dataSet = {"a", "b", "c", "d"};
+    String[] times;
 
     public static class HighScoreViewHolder extends RecyclerView.ViewHolder{
-        public TextView textView;
-        public HighScoreViewHolder(TextView v) {
+        public TextView textViewNum;
+        public TextView textViewTime;
+        public HighScoreViewHolder(View v) {
             super(v);
-            textView = v;
+            this.textViewNum = (TextView) v.findViewById(R.id.text_view_high_score_number);
+            this.textViewTime = (TextView) v.findViewById(R.id.text_view_high_score_time);
         }
     }
 
     public HighScoreAdapter(String[] datas) {
-        this.dataSet = datas;
+        this.times = datas;
     }
 
     @Override
     public HighScoreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_text_view, parent, false);
+        View view =  LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_high_score_row, parent, false);
         // set the view's size, margins, paddings and layout parameters
-
-        HighScoreViewHolder vh = new HighScoreViewHolder(v);
+        HighScoreViewHolder vh = new HighScoreViewHolder(view);
         return vh;
 
     }
@@ -41,13 +46,13 @@ public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.View
     public void onBindViewHolder(HighScoreViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText(dataSet[position]);
-
+        holder.textViewTime.setText(times[position]);
+        holder.textViewNum.setText(Integer.toString(position+1));
     }
 
     @Override
     public int getItemCount() {
-        return dataSet.length;
+        return times.length;
     }
 
 

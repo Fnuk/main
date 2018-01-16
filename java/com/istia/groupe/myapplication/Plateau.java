@@ -83,7 +83,7 @@ public class Plateau {
     }
 
     public int[][] getSafeZone(int xpos, int ypos) {
-        // Méthode prenant en entrée une une case de coordonnées (x,y) et renvoyant sous forme de int[][]:
+        // Méthode prenant en entrée une case de coordonnées (x,y) et renvoyant sous forme de int[][]:
         // null si case entrée == -1
         // une seule case si 0 < case entrée < 9
         // un tableau de cases si case entrée == 0
