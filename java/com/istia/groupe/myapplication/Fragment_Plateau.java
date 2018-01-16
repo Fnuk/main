@@ -2,6 +2,7 @@ package com.istia.groupe.myapplication;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.media.Image;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.Space;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,6 +31,7 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,7 +121,6 @@ public class Fragment_Plateau extends Fragment {
                 myButton.setCoordY(j);
                 //Setting id for button, if not set equal -1
                 myButton.setId(createId(myButton.getCoordX(), myButton.getCoordY()));
-                Log.i("Id du bouton", myButton.getId()+"");
                 casesDemineur.add(myButton);
 
                 //On ajoute la fonction au bouton
@@ -128,12 +130,16 @@ public class Fragment_Plateau extends Fragment {
                         switch(clickChoice) {
                             case 0:
                                 if(!myButton.isMarked()) {
-                                    displaySquare(myButton.getCoordX(), myButton.getCoordY(), casesDemineur.indexOf(myButton));
                                     int[][] safeZone = Plateau.getInstance().getSafeZone(myButton.getCoordX(),myButton.getCoordY());
-                                    for(int i = 0; i < safeZone.length; i++){
-                                        int safeZoneX = safeZone[i][0];
-                                        int safeZoneY = safeZone[i][1];
-                                        displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
+                                    displaySquare(myButton.getCoordX(), myButton.getCoordY(), casesDemineur.indexOf(myButton));
+                                    if(safeZone == null) {
+                                        createAlertDialog("Vous avez perdu...!", "Recommencer", "Accueil");
+                                    }else{
+                                        for (int i = 0; i < safeZone.length; i++) {
+                                            int safeZoneX = safeZone[i][0];
+                                            int safeZoneY = safeZone[i][1];
+                                            displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
+                                        }
                                     }
                                 }
                                 break;
@@ -150,7 +156,7 @@ public class Fragment_Plateau extends Fragment {
                                     nbBombs++;
                                 }
                                 if(Plateau.getInstance().checkVictory()){
-                                    Toast.makeText(getContext(), "Victoire", Toast.LENGTH_SHORT).show();
+                                    createAlertDialog("Vous avez gagné !", "Recommencer", "Accueil");
                                 }
                                 break;
                             case 2:
@@ -220,14 +226,15 @@ public class Fragment_Plateau extends Fragment {
                 /*TextView space = new TextView(getContext());
                 space.setBackgroundColor(Color.GREEN);
                 space.setText("XX");*/
-                casesDemineur.get(idx).setBackgroundColor(Color.GREEN);
+                casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
                 //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             case -1 :
                 /*ImageView image = new ImageView(getContext());
                 image.setImageResource(R.drawable.bomb);
                 image.setBackgroundColor(Color.RED );*/
-                casesDemineur.get(idx).setBackgroundColor(Color.RED);
+                casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
+                casesDemineur.get(idx).setImageResource(R.drawable.bomb);
                 //gridDemineur.addView(image, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             default :
@@ -240,19 +247,10 @@ public class Fragment_Plateau extends Fragment {
         }
     }
 
-    public void setRows(int rows){
-        this.rows = rows;
-    }
-
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
-
     private int findButtonId(int x, int y){
         int idx = -1;
         for(DemineurButton db : casesDemineur){
             if(db.getCoordX() == x && db.getCoordY()== y) {
-                Log.i("ID :", db.getId() + "");
                 idx = casesDemineur.indexOf(db);
             }
         }
@@ -260,11 +258,24 @@ public class Fragment_Plateau extends Fragment {
         return idx;
     }
 
-    private void lookUntilNumber(int x, int y){
-        int idx = findButtonId(x,y);
-        if(idx != -1)
-            displaySquare(y, x, idx);
 
+    private void createAlertDialog(String msg, String pos, String neg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setPositiveButton(pos, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton(neg, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create().show();
     }
 
     private int createId(int a, int b){

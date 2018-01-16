@@ -55,7 +55,8 @@ public class CellAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //adapt size of cell to screen
-        //buttons.get(position).setMinimumHeight(height/(buttons.size()/2));
+        Log.i("nombre button :", ""+(Math.sqrt(buttons.size())));
+        buttons.get(position).setMinimumHeight((height/((int)Math.sqrt(buttons.size())))/2);
         return buttons.get(position);
     }
 
