@@ -74,6 +74,7 @@ public class Fragment_Plateau extends Fragment {
         view = inflater.inflate(R.layout.fragment_fragment__plateau, container, false);
 
         //Indique la presence de la toolbar
+        // NE PAS SUPPRIMER
         setHasOptionsMenu(true);
         Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar_fragmentplateau);
         if(toolbar != null)
@@ -81,6 +82,7 @@ public class Fragment_Plateau extends Fragment {
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+        //FIN NE PAS SUPPRIMER
 
         //Getting the size of the screen
         /*WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -272,6 +274,7 @@ public class Fragment_Plateau extends Fragment {
         return Integer.parseInt(id);
     }
 
+    //NE PAS SUPPRIMER
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_plateau, menu);
@@ -309,4 +312,5 @@ public class Fragment_Plateau extends Fragment {
         }
         return true;
     }
+    //FIN NE PAS SUPPRIMER
 }
