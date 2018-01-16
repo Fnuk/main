@@ -8,11 +8,18 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.Space;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +73,17 @@ public class Fragment_Plateau extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_fragment__plateau, container, false);
 
+        //Indique la presence de la toolbar
+        // NE PAS SUPPRIMER
+        setHasOptionsMenu(true);
+        Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar_fragmentplateau);
+        if(toolbar != null)
+        {
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        //FIN NE PAS SUPPRIMER
+
         //Getting the size of the screen
         /*WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         final Display display = wm.getDefaultDisplay();
@@ -111,17 +129,28 @@ public class Fragment_Plateau extends Fragment {
                             case 0:
                                 if(!myButton.isMarked()) {
                                     displaySquare(myButton.getCoordX(), myButton.getCoordY(), casesDemineur.indexOf(myButton));
+                                    int[][] safeZone = Plateau.getInstance().getSafeZone(myButton.getCoordX(),myButton.getCoordY());
+                                    for(int i = 0; i < safeZone.length; i++){
+                                        int safeZoneX = safeZone[i][0];
+                                        int safeZoneY = safeZone[i][1];
+                                        displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
+                                    }
                                 }
                                 break;
                             case 1:
                                 if(!myButton.isMarked()) {
                                     //On affiche l'indicateur
                                     myButton.setImageResource(R.drawable.flag);
+                                    Plateau.getInstance().placeBombFlag(myButton.getCoordX(), myButton.getCoordY());
                                     nbBombs--;
                                 }else{
                                     //On retire l'image
                                     myButton.setImageResource(0);
+                                    Plateau.getInstance().removeBombFlag(myButton.getCoordX(), myButton.getCoordY());
                                     nbBombs++;
+                                }
+                                if(Plateau.getInstance().checkVictory()){
+                                    Toast.makeText(getContext(), "Victoire", Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             case 2:
@@ -192,20 +221,6 @@ public class Fragment_Plateau extends Fragment {
                 space.setBackgroundColor(Color.GREEN);
                 space.setText("XX");*/
                 casesDemineur.get(idx).setBackgroundColor(Color.GREEN);
-                int[][] safeZone = Plateau.getInstance().getSafeZone(x,y);
-                for(int i = 0; i < safeZone.length; i++){
-                    int safeZoneX = safeZone[i][0];
-                    int safeZoneY = safeZone[i][1];
-                    displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
-                }
-                /*lookUntilNumber(x, y-1);
-                lookUntilNumber(x+1,y-1);
-                lookUntilNumber(x+1,y);
-                lookUntilNumber(x+1,y+1);
-                lookUntilNumber(x,y+1);
-                lookUntilNumber(x-1,y+1);
-                lookUntilNumber(x-1,y);
-                lookUntilNumber(x-1,y-1);*/
                 //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             case -1 :
@@ -256,4 +271,44 @@ public class Fragment_Plateau extends Fragment {
         String id = a+""+b;
         return Integer.parseInt(id);
     }
+
+    //NE PAS SUPPRIMER
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_plateau, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        switch (item.getItemId()) {
+            case R.id.home_toolbarAction:
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Title_Screen fragment_title = new Title_Screen();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_title);
+                fragmentTransaction.commit();
+                break;
+            case R.id.back_toolbarAction:
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Title_Screen_ChooseDif fragment_dif = new Title_Screen_ChooseDif();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_dif);
+                fragmentTransaction.commit();
+                break;
+            case R.id.reset_toolbarAction:
+                break;
+            case R.id.easy_toolbarAction:
+                break;
+            case R.id.medium_toolbarAction:
+                break;
+            case R.id.hard_toolbarAction:
+                break;
+        }
+        return true;
+    }
+    //FIN NE PAS SUPPRIMER
 }

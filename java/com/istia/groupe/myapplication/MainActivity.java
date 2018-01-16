@@ -16,26 +16,15 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    //NE PAS EFFACER
-    /*Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
     if(toolbar != null)
     {
       setSupportActionBar(toolbar);
     }
-    getSupportActionBar().setDisplayShowTitleEnabled(false);*/
-    //FIN NE PAS EFFACER
-
-//      Test classe plateau
-
-      Plateau plat = Plateau.getInstance();
-      plat.init(4,4,1);
-      Log.i("PLATEAU", plat.toString());
-      int[][] test =  plat.getSafeZone(2,2);
-
+    getSupportActionBar().setDisplayShowTitleEnabled(false);
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-    Fragment_Plateau fragment = new Fragment_Plateau();
-//    FragmentTableauHighScore fragment = new FragmentTableauHighScore();
+    Title_Screen fragment = new Title_Screen();
     fragmentTransaction.add(R.id.fragment_container, fragment);
     fragmentTransaction.commit();
   }
@@ -62,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     return true;
+
+
   }
-  //FIN NE PAS EFFACER
 }

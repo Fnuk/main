@@ -9,4 +9,6 @@
   <string name="hardmode_button">Difficile</string>
   <string name="home_toolbarButton">Accueil</string>
   <string name="mediummode_button">Moyen</string>
+  <string name="reset_toolbarButton">Recommencer</string>
+  <string name="custommode_button">Perso</string>
 </resources>
