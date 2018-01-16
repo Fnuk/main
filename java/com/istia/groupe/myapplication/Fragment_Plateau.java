@@ -8,6 +8,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.Space;
 import android.util.Log;
 import android.view.Display;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_Plateau extends Fragment implements View.OnClickListener {
+public class Fragment_Plateau extends Fragment {
 
     private View view;
     private GridLayout gridDemineur = null;
@@ -79,7 +80,6 @@ public class Fragment_Plateau extends Fragment implements View.OnClickListener {
         bombButton = (ImageButton)  view.findViewById(R.id.bombButton);
         //layout instantiation
         gridDemineur = (GridLayout) view.findViewById(R.id.GridLayoutDemineur);
-
         gridDemineur.setRowCount(rows);
         gridDemineur.setColumnCount(columns);
 
@@ -130,6 +130,7 @@ public class Fragment_Plateau extends Fragment implements View.OnClickListener {
                         bombsCounter.setText(String.valueOf(nbBombs));
                     }
                 });
+                myButton.setBackgroundColor(Color.GRAY);
                 gridDemineur.addView(myButton, (height/rows)/2, (width/columns)/2);
 
 
@@ -141,23 +142,10 @@ public class Fragment_Plateau extends Fragment implements View.OnClickListener {
         flagButton.setOnTouchListener(listenerSelectType);
 
         bombButton.setOnTouchListener(listenerSelectType);
+
         return view;
     }
 
-    public void onClick(View view){
-        switch(clickChoice){
-            case 0:
-                break;
-            case 1:
-                //imgButton.setImageResource(R.drawable.flag);
-                break;
-            case 2:
-                //imgButton.setImageResource(R.drawable.bomb);
-                break;
-        }
-
-
-    }
 
     View.OnTouchListener listenerSelectType = new View.OnTouchListener() {
         @Override
@@ -188,26 +176,30 @@ public class Fragment_Plateau extends Fragment implements View.OnClickListener {
 
 
     public void displaySquare(int x, int y, int idx){
-        switch(plateau[x][y]){
+        switch(plateau[y][x]){
             case 0 :
-                Space space = new Space(getContext());
+                /*TextView space = new TextView(getContext());
                 space.setBackgroundColor(Color.GREEN);
-                casesDemineur.get(idx).setVisibility(View.INVISIBLE);
-                gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                space.setText("XX");*/
+                casesDemineur.get(idx).setBackgroundColor(Color.GREEN);
+                Log.i("id x et y :", x+"+"+y);
+                //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             case -1 :
-                ImageView image = new ImageView(getContext());
+                /*ImageView image = new ImageView(getContext());
                 image.setImageResource(R.drawable.bomb);
-                image.setBackgroundColor(Color.RED );
-                casesDemineur.get(idx).setVisibility(View.INVISIBLE);
-                gridDemineur.addView(image, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                image.setBackgroundColor(Color.RED );*/
+                casesDemineur.get(idx).setBackgroundColor(Color.RED);
+                Log.i("id x et y :", x+"+"+y);
+                //gridDemineur.addView(image, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             default :
-                TextView howManyBombs = new TextView(getContext());
+                /*TextView howManyBombs = new TextView(getContext());
                 howManyBombs.setText(String.valueOf(plateau[x][y]));
-                howManyBombs.setBackgroundColor(Color.GRAY);
-                casesDemineur.get(idx).setVisibility(View.INVISIBLE);
-                gridDemineur.addView(howManyBombs, gridDemineur.indexOfChild(casesDemineur.get(idx)));
+                howManyBombs.setBackgroundColor(Color.GRAY);*/
+                casesDemineur.get(idx).setBackgroundColor(Color.BLUE);
+                Log.i("id x et y :", x+"+"+y);
+                //gridDemineur.addView(howManyBombs, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
         }
     }

@@ -15,14 +15,14 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_main);
     //NE PAS EFFACER
-    Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
+    /*Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
     if(toolbar != null)
     {
       setSupportActionBar(toolbar);
     }
-    getSupportActionBar().setDisplayShowTitleEnabled(false);
+    getSupportActionBar().setDisplayShowTitleEnabled(false);*/
     //FIN NE PAS EFFACER
 
 //      Test classe plateau
@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
       plat.init(4,4,3);
       Log.i("PLATEAU", plat.toString());
 
-//      FragmentManager fragmentManager = getSupportFragmentManager();
-//      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//      Fragment_Plateau fragment = new Fragment_Plateau();
-//      fragmentTransaction.add(R.id.fragment_container, fragment);
-//      fragmentTransaction.commit();
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    Fragment_Plateau fragment = new Fragment_Plateau();
+    fragmentTransaction.add(R.id.fragment_container, fragment);
+    fragmentTransaction.commit();
 
   }
 
