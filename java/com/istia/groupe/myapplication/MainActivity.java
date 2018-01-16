@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     FragmentTableauHighScore fragment = new FragmentTableauHighScore();
     fragmentTransaction.add(R.id.fragment_container, fragment);
     fragmentTransaction.commit();
-
   }
 
   //NE PAS EFFACER
@@ -56,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
     switch(id)
     {
       case R.id.home_toolbarAction:
-        Toast.makeText(this, "Home clicked", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Home clicked", Toast.LENGTH_SHORT).show();
         return true;
       case R.id.back_toolbarAction:
-        Toast.makeText(this, "Back clicked", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Back clicked", Toast.LENGTH_SHORT).show();
         return true;
     }
     return true;
