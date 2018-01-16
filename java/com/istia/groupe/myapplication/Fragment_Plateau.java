@@ -2,6 +2,7 @@ package com.istia.groupe.myapplication;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.media.Image;
@@ -34,7 +35,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -57,6 +60,7 @@ public class Fragment_Plateau extends Fragment {
     private ImageButton handButton = null,
             flagButton = null,
             bombButton = null;
+    private Long t=0L;
 
     public Fragment_Plateau() {
         // Required empty public constructor
@@ -118,8 +122,9 @@ public class Fragment_Plateau extends Fragment {
                 myButton.setCoordY(j);
                 //Setting id for button, if not set equal -1
                 myButton.setId(createId(myButton.getCoordX(), myButton.getCoordY()));
-                Log.i("Id du bouton", myButton.getId()+"");
+//                Log.i("Id du bouton", myButton.getId()+"");
                 casesDemineur.add(myButton);
+
 
                 //On ajoute la fonction au bouton
                 myButton.setOnClickListener(new View.OnClickListener() {
@@ -341,4 +346,5 @@ public class Fragment_Plateau extends Fragment {
         return true;
     }
     //FIN NE PAS SUPPRIMER
+
 }

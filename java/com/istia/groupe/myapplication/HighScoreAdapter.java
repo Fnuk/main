@@ -52,7 +52,11 @@ public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.High
 
     @Override
     public int getItemCount() {
-        return times.size();
+        if(times == null) {
+            return 0;
+        } else {
+            return times.size();
+        }
     }
 
 

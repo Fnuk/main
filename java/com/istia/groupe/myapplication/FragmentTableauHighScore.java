@@ -3,6 +3,7 @@ package com.istia.groupe.myapplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,15 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -34,7 +36,8 @@ public class FragmentTableauHighScore extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private int maxNumberOfHighScore = 3;
     private ArrayList<Long> highScores;
-    private Button leftArrow, rightArrow;
+    private ImageButton leftArrow, rightArrow;
+    private TextView txtViewDifficulty;
 
     public static FragmentTableauHighScore newInstance(String difficulty) {
         Bundle args = new Bundle();
@@ -75,24 +78,34 @@ public class FragmentTableauHighScore extends Fragment {
         }
 
         // specify an adapter
-        this.difficulty = "facile";
-        highScores = getHighScores(this.difficulty);
+        this.difficulty = "moyen";
+        highScores = PreferenceManager.getInstance()
+                .getHighScores(this.difficulty, getActivity(), maxNumberOfHighScore);
 
         adapter = new HighScoreAdapter(highScores);
         recyclerView.setAdapter(adapter);
-        leftArrow = (Button) view.findViewById(R.id.tab_high_score_btn_left_arrow);
-        rightArrow = (Button) view.findViewById(R.id.tab_high_score_btn_right_arrow);
+
+        txtViewDifficulty = (TextView) view.findViewById(R.id.tab_high_score_difficulty);
+        txtViewDifficulty.setText(getActivity().getString(R.string.mediummode_button));
+        leftArrow = (ImageButton) view.findViewById(R.id.tab_high_score_btn_left_arrow);
+        rightArrow = (ImageButton) view.findViewById(R.id.tab_high_score_btn_right_arrow);
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (difficulty) {
                     case "moyen":
                         difficulty = "facile";
-                        highScores = getHighScores(difficulty);
+                        highScores = PreferenceManager.getInstance()
+                                .getHighScores(difficulty, getActivity(), maxNumberOfHighScore);
+                        adapter.notifyDataSetChanged();
+                        txtViewDifficulty.setText(getActivity().getString(R.string.easymode_button));
                         break;
                     case "difficile":
                         difficulty = "moyen";
-                        highScores = getHighScores(difficulty);
+                        highScores = PreferenceManager.getInstance()
+                                .getHighScores(difficulty, getActivity(), maxNumberOfHighScore);
+                        adapter.notifyDataSetChanged();
+                        txtViewDifficulty.setText(getActivity().getString(R.string.mediummode_button));
                         break;
                 }
             }
@@ -103,69 +116,23 @@ public class FragmentTableauHighScore extends Fragment {
                 switch (difficulty) {
                     case "facile":
                         difficulty = "moyen";
-                        highScores = getHighScores(difficulty);
+                        highScores = PreferenceManager.getInstance()
+                                .getHighScores(difficulty, getActivity(), maxNumberOfHighScore);
+                        adapter.notifyDataSetChanged();
+                        txtViewDifficulty.setText(getActivity().getString(R.string.mediummode_button));
                         break;
                     case "moyen":
                         difficulty = "difficile";
-                        highScores = getHighScores(difficulty);
+                        highScores = PreferenceManager.getInstance()
+                                .getHighScores(difficulty, getActivity(), maxNumberOfHighScore);
+                        adapter.notifyDataSetChanged();
+                        txtViewDifficulty.setText(getActivity().getString(R.string.hardmode_button));
                         break;
                 }
             }
         });
 
         return view;
-    }
-
-    private ArrayList<Long> getHighScores(String dif) {
-        String key;
-        Long t = 0L;
-        int place = 1;
-        ArrayList<Long> ranking = new ArrayList<>();
-        Context context = getContext();
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                getString(R.string.high_score_save_file), Context.MODE_PRIVATE);
-        if(!this.difficulty.equals("custom")) {
-            // difficulty : facile, moyen, difficile
-            while (!t.equals(-1L) && place <= maxNumberOfHighScore) {
-                // la clé prend la forme : facile1, facile2, facile3, ... (remplacer facile par la
-                // difficulté choisie) ; le nombre étant le classement du temps (score) correspondant
-                key = difficulty + place;
-                // on récupère le temps correspondant à la clé
-                // Si la clé n'existe pas, la valeur rendue par défaut est -1L : condition de sortie
-                t = sharedPref.getLong(key, -1L);
-                // ajout dans une liste temporaire des scores
-                ranking.add(t);
-                // on incrémente la variable du classement pour l'itération suivante
-                place++;
-            }
-
-            return ranking;
-        } else {
-            return null;
-        }
-    }
-
-    public void saveScore(long time, String difficulty) {
-        Context context = getContext();
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                getString(R.string.high_score_save_file), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        ArrayList<Long> ranking = getHighScores(difficulty);
-        ranking.add(time);
-        // On trie la nouvelle liste des classements
-        Collections.sort(ranking);
-        // on limite la taille du classement
-        if(ranking.size() >= maxNumberOfHighScore) {
-            ranking.remove(ranking.size()-1);
-        }
-        for(int i=1;i<ranking.size();i++) {
-            // Début à 1 car le -1L (pas de temps négatif donc -1L se retrouve en 1er)
-            // par défaut a été ajouté à la liste
-            // on ajoute les temps dans le fichier de préférences avec la clé corespondant à leur classement
-            editor.putLong(difficulty+i, ranking.get(i));
-        }
-        editor.commit();
     }
 
     @Override
