@@ -151,6 +151,7 @@ public class Fragment_Plateau extends Fragment {
                                 if(!myButton.isMarked()) {
                                     //On affiche l'indicateur
                                     myButton.setImageResource(R.drawable.flag);
+                                    myButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                                     Plateau.getInstance().placeBombFlag(myButton.getCoordX(), myButton.getCoordY());
                                     nbBombs--;
                                 }else{
@@ -166,7 +167,8 @@ public class Fragment_Plateau extends Fragment {
                                 break;
                             case 2:
                                 if(!myButton.isMarked()) {
-                                    myButton.setImageResource(R.drawable.question);
+                                    myButton.setBackgroundResource(R.drawable.question);
+                                    myButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                                 }else{
                                     myButton.setImageResource(0);
                                 }

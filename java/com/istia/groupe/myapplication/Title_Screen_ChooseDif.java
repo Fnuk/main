@@ -64,9 +64,11 @@ public class Title_Screen_ChooseDif extends Fragment implements View.OnClickList
         break;
       case R.id.medium_titleButton:
         plat.init(16, 16, 40, "moyen");
+          Toast.makeText(getContext(), "ça se corse... surtout visuellement", Toast.LENGTH_SHORT).show();
         break;
       case R.id.hard_titleButton:
         plat.init(32, 16, 99, "difficile");
+          Toast.makeText(getContext(), "A vos risques et périls...n'oubliez pas de scroller", Toast.LENGTH_SHORT).show();
         break;
       case R.id.custom_titleButton:
         fragmentTransaction = fragmentManager.beginTransaction();
