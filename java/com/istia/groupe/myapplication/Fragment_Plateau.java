@@ -8,11 +8,18 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.Space;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +72,15 @@ public class Fragment_Plateau extends Fragment {
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_fragment__plateau, container, false);
+
+        //Indique la presence de la toolbar
+        setHasOptionsMenu(true);
+        Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar_fragmentplateau);
+        if(toolbar != null)
+        {
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         //Getting the size of the screen
         /*WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -254,5 +270,43 @@ public class Fragment_Plateau extends Fragment {
     private int createId(int a, int b){
         String id = a+""+b;
         return Integer.parseInt(id);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_plateau, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        switch (item.getItemId()) {
+            case R.id.home_toolbarAction:
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Title_Screen fragment_title = new Title_Screen();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_title);
+                fragmentTransaction.commit();
+                break;
+            case R.id.back_toolbarAction:
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Title_Screen_ChooseDif fragment_dif = new Title_Screen_ChooseDif();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_dif);
+                fragmentTransaction.commit();
+                break;
+            case R.id.reset_toolbarAction:
+                break;
+            case R.id.easy_toolbarAction:
+                break;
+            case R.id.medium_toolbarAction:
+                break;
+            case R.id.hard_toolbarAction:
+                break;
+        }
+        return true;
     }
 }
