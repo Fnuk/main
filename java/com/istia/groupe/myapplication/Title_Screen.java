@@ -48,17 +48,22 @@ public class Title_Screen extends Fragment implements View.OnClickListener
 
   @Override
   public void onClick(View v) {
+
+    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction;
     switch (v.getId())
     {
       case R.id.play_titleButton:
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Title_Screen_ChooseDif fragment = new Title_Screen_ChooseDif();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        Title_Screen_ChooseDif fragment_difficulty = new Title_Screen_ChooseDif();
+        fragmentTransaction.replace(R.id.fragment_container, fragment_difficulty);
         fragmentTransaction.commit();
         break;
       case R.id.highscores_titleButton:
-        Toast.makeText(getContext(), "Score clicked", Toast.LENGTH_SHORT).show();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTableauHighScore fragment_score = new FragmentTableauHighScore();
+        fragmentTransaction.replace(R.id.fragment_container, fragment_score);
+        fragmentTransaction.commit();
         break;
     }
   }

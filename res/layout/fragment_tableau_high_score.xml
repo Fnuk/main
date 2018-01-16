@@ -5,6 +5,25 @@
     tools:context="com.istia.groupe.myapplication.FragmentTableauHighScore"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar_highscore"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:background="@color/darkGrey"
+      android:minHeight="50dp">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/title"
+          android:layout_gravity="start"
+          android:id="@+id/toolbar_text"
+          style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+          />
+
+    </android.support.v7.widget.Toolbar>
+
     <TextView
         android:id="@+id/tab_high_score_title"
         android:layout_width="match_parent"
