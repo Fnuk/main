@@ -19,14 +19,21 @@
         android:text="@string/nbBombs"/>
   </LinearLayout>
 
-  <GridLayout
+  <GridView
+      android:id="@+id/GridViewDemineur"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_weight="0.5"
+      android:stretchMode="columnWidth"
+      android:gravity="center"
+      android:layout_gravity="center_vertical"></GridView>
+  <!--<GridLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:id="@+id/GridLayoutDemineur"
       android:layout_weight="0.5"
-      android:gravity="center"
-      android:layout_gravity="fill_horizontal">
-  </GridLayout>
+      android:gravity="center">
+  </GridLayout>-->
 
   <LinearLayout
       android:layout_width="match_parent"
