@@ -5,9 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,6 +60,17 @@ public class FragmentTableauHighScore extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.tab_high_score_recycler_view);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        //Toolbar
+        setHasOptionsMenu(true);
+
+        Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar_highscore);
+        if(toolbar != null)
+        {
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
         // specify an adapter
         ArrayList<Long> holder = getHighScores(difficulty);
         highScores = holder.toArray(new Long[holder.size()]);
@@ -111,6 +129,27 @@ public class FragmentTableauHighScore extends Fragment {
             editor.putLong(difficulty+i, ranking.get(i));
         }
         editor.commit();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_title_highscore, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()) {
+            case R.id.back_hstoolbarAction:
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Title_Screen fragment = new Title_Screen();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.commit();
+                break;
+        }
+        return true;
     }
 
 }

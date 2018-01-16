@@ -16,4 +16,5 @@
   <string name="col">Columns:</string>
   <string name="nbBombs">Number of bombs:</string>
   <string name="pleasefillall">Please complete all fields.</string>
+  <string name="title_tab_highscore">High Scores</string>
 </resources>
