@@ -92,12 +92,15 @@ public class Fragment_Plateau extends Fragment {
         //création des différentes cases du plateau (UI)
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                //La case de coordonnées x = j et y = i, matérialisé par un bouton
+                //La case de coordonnées x = i et y = j, matérialisé par un bouton
                 final DemineurButton myButton = new DemineurButton(this.getContext());
 
                 //On set les coordonnées du bouton et on l'ajoute à la liste
-                myButton.setCoordX(j);
-                myButton.setCoordY(i);
+                myButton.setCoordX(i);
+                myButton.setCoordY(j);
+                //Setting id for button, if not set equal -1
+                myButton.setId(createId(myButton.getCoordX(), myButton.getCoordY()));
+                Log.i("Id du bouton", myButton.getId()+"");
                 casesDemineur.add(myButton);
 
                 //On ajoute la fonction au bouton
@@ -183,12 +186,26 @@ public class Fragment_Plateau extends Fragment {
 
     //Display a cell
     public void displaySquare(int x, int y, int idx){
-        switch(plateau[y][x]){
+        switch(plateau[x][y]){
             case 0 :
                 /*TextView space = new TextView(getContext());
                 space.setBackgroundColor(Color.GREEN);
                 space.setText("XX");*/
                 casesDemineur.get(idx).setBackgroundColor(Color.GREEN);
+                int[][] safeZone = Plateau.getInstance().getSafeZone(x,y);
+                for(int i = 0; i < safeZone.length; i++){
+                    int safeZoneX = safeZone[i][0];
+                    int safeZoneY = safeZone[i][1];
+                    displaySquare(safeZoneX, safeZoneY, findButtonId(safeZoneX, safeZoneY));
+                }
+                /*lookUntilNumber(x, y-1);
+                lookUntilNumber(x+1,y-1);
+                lookUntilNumber(x+1,y);
+                lookUntilNumber(x+1,y+1);
+                lookUntilNumber(x,y+1);
+                lookUntilNumber(x-1,y+1);
+                lookUntilNumber(x-1,y);
+                lookUntilNumber(x-1,y-1);*/
                 //gridDemineur.addView(space, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
             case -1 :
@@ -214,5 +231,28 @@ public class Fragment_Plateau extends Fragment {
 
     public void setColumns(int columns) {
         this.columns = columns;
+    }
+
+    private int findButtonId(int x, int y){
+        int idx = -1;
+        for(DemineurButton db : casesDemineur){
+            if(db.getCoordX() == x && db.getCoordY()== y)
+                Log.i("ID :", db.getId()+"");
+                idx = casesDemineur.indexOf(db);
+        }
+
+        return idx;
+    }
+
+    private void lookUntilNumber(int x, int y){
+        int idx = findButtonId(x,y);
+        if(idx != -1)
+            displaySquare(y, x, idx);
+
+    }
+
+    private int createId(int a, int b){
+        String id = a+""+b;
+        return Integer.parseInt(id);
     }
 }

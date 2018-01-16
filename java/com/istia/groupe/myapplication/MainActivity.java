@@ -17,10 +17,13 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    Plateau plat = Plateau.getInstance();
+    plat.init(8,8,2);
+
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-    Title_Screen fragment = new Title_Screen();
-    //Fragment_Plateau fragment = new Fragment_Plateau();
+    //Title_Screen fragment = new Title_Screen();
+    Fragment_Plateau fragment = new Fragment_Plateau();
     fragmentTransaction.add(R.id.fragment_container, fragment);
     fragmentTransaction.commit();
 
