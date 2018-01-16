@@ -66,7 +66,11 @@ public class Title_Screen_ChooseDif extends Fragment implements View.OnClickList
         plat.init(16, 16, 40, "moyen");
         break;
       case R.id.hard_titleButton:
-        plat.init(32, 16, 99, "difficile");
+        new Thread(new Runnable(){
+          public void run(){
+            Plateau.getInstance().init(32, 16, 99, "difficile");
+          }
+        }).start();
         break;
       case R.id.custom_titleButton:
         fragmentTransaction = fragmentManager.beginTransaction();

@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class FragmentTableauHighScore extends Fragment {

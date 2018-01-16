@@ -125,26 +125,30 @@ public class Plateau {
     }
 
     public void placeBombFlag(int xpos, int ypos) {
-        if(this.plateau[xpos][ypos] == -1) {
-            correctFlaggedCases.add(new CoordsXY(xpos, ypos));
-        } else {
-            incorrectFlaggedCases.add(new CoordsXY(xpos, ypos));
-        }
+        try {
+            if (this.plateau[xpos][ypos] == -1) {
+                correctFlaggedCases.add(new CoordsXY(xpos, ypos));
+            } else {
+                incorrectFlaggedCases.add(new CoordsXY(xpos, ypos));
+            }
+        } catch(IndexOutOfBoundsException ex) {}
     }
 
     public void removeBombFlag(int xpos, int ypos) {
         CoordsXY xy = new CoordsXY(xpos, ypos);
-        if(this.plateau[xpos][ypos] == -1) {
-            int index = xy.getXYCoordsIndexInArray(correctFlaggedCases);
-            if(index != -1) {
-                correctFlaggedCases.remove(index);
+        try {
+            if (this.plateau[xpos][ypos] == -1) {
+                int index = xy.getXYCoordsIndexInArray(correctFlaggedCases);
+                if (index != -1) {
+                    correctFlaggedCases.remove(index);
+                }
+            } else {
+                int index = xy.getXYCoordsIndexInArray(incorrectFlaggedCases);
+                if (index != -1) {
+                    correctFlaggedCases.remove(index);
+                }
             }
-        } else {
-            int index = xy.getXYCoordsIndexInArray(incorrectFlaggedCases);
-            if(index != -1) {
-                correctFlaggedCases.remove(index);
-            }
-        }
+        }catch(IndexOutOfBoundsException ex) {}
     }
 
     public boolean checkVictory() {

@@ -56,7 +56,7 @@ public class Title_Screen_Custom extends Fragment implements View.OnClickListene
   public void onClick(View v) {
     Plateau plat = Plateau.getInstance();
 
-    String row, col, bombs;
+    final String row, col, bombs;
     boolean isOneEmpty = true;
 
     switch (v.getId())
@@ -68,7 +68,14 @@ public class Title_Screen_Custom extends Fragment implements View.OnClickListene
 
         isOneEmpty = row.isEmpty() || col.isEmpty() || bombs.isEmpty();
 
-        if(!isOneEmpty) plat.init(Integer.parseInt(row), Integer.parseInt(col), Integer.parseInt(bombs), "custom");
+        if(!isOneEmpty) {
+
+          new Thread(new Runnable(){
+            public void run(){
+              Plateau.getInstance().init(Integer.parseInt(row), Integer.parseInt(col), Integer.parseInt(bombs), "custom");
+            }
+          }).start();
+        }
         else
         {
           Toast.makeText(getContext(), getResources().getText(R.string.pleasefillall), Toast.LENGTH_LONG).show();

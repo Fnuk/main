@@ -86,11 +86,10 @@ public class Fragment_Plateau extends Fragment {
         //Indique la presence de la toolbar
         // NE PAS SUPPRIMER
         setHasOptionsMenu(true);
-        Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar_fragmentplateau);
-        if(toolbar != null)
-        {
-            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar_fragmentplateau);
+        if (toolbar != null) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         //FIN NE PAS SUPPRIMER
 
@@ -104,9 +103,9 @@ public class Fragment_Plateau extends Fragment {
         //Textview
         bombsCounter = (TextView) view.findViewById(R.id.BombsCounter);
         //Button instantiation
-        handButton = (ImageButton)  view.findViewById(R.id.clickButton);
-        flagButton = (ImageButton)  view.findViewById(R.id.flagButton);
-        bombButton = (ImageButton)  view.findViewById(R.id.bombButton);
+        handButton = (ImageButton) view.findViewById(R.id.clickButton);
+        flagButton = (ImageButton) view.findViewById(R.id.flagButton);
+        bombButton = (ImageButton) view.findViewById(R.id.bombButton);
         //layout instantiation
         gridDemineur = (GridView) view.findViewById(R.id.GridViewDemineur);
 
@@ -118,8 +117,8 @@ public class Fragment_Plateau extends Fragment {
         bombsCounter.setText(String.valueOf(nbBombs));
 
         //création des différentes cases du plateau (UI)
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++){
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 //La case de coordonnées x = i et y = j, matérialisé par un bouton
                 final DemineurButton myButton = new DemineurButton(this.getContext());
 
@@ -135,14 +134,14 @@ public class Fragment_Plateau extends Fragment {
                 myButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        switch(clickChoice) {
+                        switch (clickChoice) {
                             case 0:
-                                if(!myButton.isMarked()) {
-                                    int[][] safeZone = Plateau.getInstance().getSafeZone(myButton.getCoordX(),myButton.getCoordY());
+                                if (!myButton.isMarked()) {
+                                    int[][] safeZone = Plateau.getInstance().getSafeZone(myButton.getCoordX(), myButton.getCoordY());
                                     displaySquare(myButton.getCoordX(), myButton.getCoordY(), casesDemineur.indexOf(myButton));
-                                    if(safeZone == null) {
+                                    if (safeZone == null) {
                                         createAlertDialog("Vous avez perdu...!", "Recommencer", "Accueil");
-                                    }else{
+                                    } else {
                                         for (int i = 0; i < safeZone.length; i++) {
                                             int safeZoneX = safeZone[i][0];
                                             int safeZoneY = safeZone[i][1];
@@ -152,26 +151,34 @@ public class Fragment_Plateau extends Fragment {
                                 }
                                 break;
                             case 1:
-                                if(!myButton.isMarked()) {
+                                if (!myButton.isMarked()) {
                                     //On affiche l'indicateur
                                     myButton.setImageResource(R.drawable.flag);
-                                    Plateau.getInstance().placeBombFlag(myButton.getCoordX(), myButton.getCoordY());
+                                    new Thread(new Runnable(){
+                                        public void run() {
+                                            Plateau.getInstance().placeBombFlag(myButton.getCoordX(), myButton.getCoordY());
+                                        }
+                                    }).start();
                                     nbBombs--;
-                                }else{
+                                } else {
                                     //On retire l'image
                                     myButton.setImageResource(0);
-                                    Plateau.getInstance().removeBombFlag(myButton.getCoordX(), myButton.getCoordY());
+                                    new Thread(new Runnable(){
+                                        public void run() {
+                                            Plateau.getInstance().removeBombFlag(myButton.getCoordX(), myButton.getCoordY());
+                                        }
+                                    }).start();
                                     nbBombs++;
                                 }
-                                if(Plateau.getInstance().checkVictory()){
-                                    PreferenceManager.getInstance().saveScore(System.currentTimeMillis()-beginTime, Plateau.getInstance().getDifficulty() , getActivity());
+                                if (Plateau.getInstance().checkVictory()) {
+                                    PreferenceManager.getInstance().saveScore(System.currentTimeMillis() - beginTime, Plateau.getInstance().getDifficulty(), getActivity());
                                     createAlertDialog("Vous avez gagné !", "Recommencer", "Accueil");
                                 }
                                 break;
                             case 2:
-                                if(!myButton.isMarked()) {
+                                if (!myButton.isMarked()) {
                                     myButton.setImageResource(R.drawable.question);
-                                }else{
+                                } else {
                                     myButton.setImageResource(0);
                                 }
                                 break;
@@ -202,20 +209,20 @@ public class Fragment_Plateau extends Fragment {
     View.OnTouchListener listenerSelectType = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            switch (v.getId()){
-                case (R.id.clickButton) :
+            switch (v.getId()) {
+                case (R.id.clickButton):
                     handButton.setPressed(true);
                     flagButton.setPressed(false);
                     bombButton.setPressed(false);
                     clickChoice = 0;
                     break;
-                case (R.id.flagButton) :
+                case (R.id.flagButton):
                     handButton.setPressed(false);
                     flagButton.setPressed(true);
                     bombButton.setPressed(false);
                     clickChoice = 1;
                     break;
-                case (R.id.bombButton) :
+                case (R.id.bombButton):
                     handButton.setPressed(false);
                     flagButton.setPressed(false);
                     bombButton.setPressed(true);
@@ -227,41 +234,41 @@ public class Fragment_Plateau extends Fragment {
     };
 
     //Display a cell
-    public void displaySquare(int x, int y, int idx){
-        switch(plateau[x][y]){
-            case 0 :
+    public void displaySquare(int x, int y, int idx) {
+        switch (plateau[x][y]) {
+            case 0:
                 casesDemineur.get(idx).setBackgroundColor(Color.TRANSPARENT);
                 casesDemineur.get(idx).setEnabled(false);
                 break;
-            case -1 :
+            case -1:
                 casesDemineur.get(idx).setBackgroundResource(R.drawable.bomb);
                 casesDemineur.get(idx).setScaleType(ImageView.ScaleType.FIT_XY);
                 break;
-            default :
+            default:
                 casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
-                switch(plateau[x][y]){
-                    case 1 :
+                switch (plateau[x][y]) {
+                    case 1:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.one);
                         break;
-                    case 2 :
+                    case 2:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.two);
                         break;
-                    case 3 :
+                    case 3:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.three);
                         break;
-                    case 4 :
+                    case 4:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.four);
                         break;
-                    case 5 :
+                    case 5:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.five);
                         break;
-                    case 6 :
+                    case 6:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.six);
                         break;
-                    case 7 :
+                    case 7:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.seven);
                         break;
-                    case 8 :
+                    case 8:
                         casesDemineur.get(idx).setBackgroundResource(R.drawable.eight);
                         break;
 
@@ -271,10 +278,10 @@ public class Fragment_Plateau extends Fragment {
         }
     }
 
-    private int findButtonId(int x, int y){
+    private int findButtonId(int x, int y) {
         int idx = -1;
-        for(DemineurButton db : casesDemineur){
-            if(db.getCoordX() == x && db.getCoordY()== y) {
+        for (DemineurButton db : casesDemineur) {
+            if (db.getCoordX() == x && db.getCoordY() == y) {
                 idx = casesDemineur.indexOf(db);
             }
         }
@@ -282,7 +289,7 @@ public class Fragment_Plateau extends Fragment {
     }
 
 
-    private void createAlertDialog(String msg, String pos, String neg){
+    private void createAlertDialog(String msg, String pos, String neg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(msg);
         builder.setCancelable(false);
@@ -315,8 +322,8 @@ public class Fragment_Plateau extends Fragment {
         }
     };
 
-    private int createId(int a, int b){
-        String id = a+""+b;
+    private int createId(int a, int b) {
+        String id = a + "" + b;
         return Integer.parseInt(id);
     }
 
@@ -328,8 +335,7 @@ public class Fragment_Plateau extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         Plateau p = Plateau.getInstance();
 
         FragmentManager fragmentManager;
@@ -389,7 +395,5 @@ public class Fragment_Plateau extends Fragment {
         return true;
     }
     //FIN NE PAS SUPPRIMER
-
-//    private class
 
 }
