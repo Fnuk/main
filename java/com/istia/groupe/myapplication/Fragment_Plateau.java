@@ -48,8 +48,8 @@ public class Fragment_Plateau extends Fragment {
 
     private View view;
     private GridView gridDemineur = null;
-    private int rows = 8;
-    private int columns = 8;
+    private int rows = 3;
+    private int columns = 3;
     private int height, width, nbBombs;
     private Point size = new Point();
     private int clickChoice = 0;
@@ -293,6 +293,8 @@ public class Fragment_Plateau extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        Plateau p = Plateau.getInstance();
+
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         switch (item.getItemId()) {
@@ -311,12 +313,40 @@ public class Fragment_Plateau extends Fragment {
                 fragmentTransaction.commit();
                 break;
             case R.id.reset_toolbarAction:
+                p.init(p.getRows(), p.getCols(), p.getNbBombe());
+
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment_Plateau fragment_plat = new Fragment_Plateau();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_plat);
+                fragmentTransaction.commit();
                 break;
             case R.id.easy_toolbarAction:
+                p.init(8, 8, 10);
+
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment_Plateau fragment_ez = new Fragment_Plateau();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_ez);
+                fragmentTransaction.commit();
                 break;
             case R.id.medium_toolbarAction:
+                p.init(16, 16, 40);
+
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment_Plateau fragment_med = new Fragment_Plateau();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_med);
+                fragmentTransaction.commit();
                 break;
             case R.id.hard_toolbarAction:
+                p.init(32, 16, 99);
+
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment_Plateau fragment_hard = new Fragment_Plateau();
+                fragmentTransaction.replace(R.id.fragment_container, fragment_hard);
+                fragmentTransaction.commit();
                 break;
         }
         return true;

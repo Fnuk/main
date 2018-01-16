@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center"
+  android:background="@color/greyDemineur"
+  tools:context="com.istia.groupe.myapplication.MainActivity">
+
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar_titlecustom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@color/darkGrey"
+    android:minHeight="50dp">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/title"
+      android:layout_gravity="start"
+      android:id="@+id/toolbar_text"
+      style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+      />
+
+    </android.support.v7.widget.Toolbar>
+
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin"
+  android:gravity="center"
+  android:background="@color/greyDemineur"
+  tools:context="com.istia.groupe.myapplication.MainActivity"
+  >
+  <Space
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:text="@string/specify_title"
+    android:textSize="30sp"
+    android:layout_weight="1"
+    android:gravity="center"/>
+
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:background="@color/greyDemineur"
+    tools:context="com.istia.groupe.myapplication.MainActivity">
+
+    <TextView
+      android:gravity="center"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:text="@string/rows"
+      />
+
+    <EditText
+      android:id="@+id/edittext_rows"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:gravity="center"
+      android:inputType="number"
+      />
+
+  </LinearLayout>
+
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:background="@color/greyDemineur"
+    tools:context="com.istia.groupe.myapplication.MainActivity">
+
+    <TextView
+      android:gravity="center"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:text="@string/col"
+      />
+
+    <EditText
+      android:id="@+id/edittext_cols"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:gravity="center"
+      android:inputType="number"
+      />
+
+  </LinearLayout>
+
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:background="@color/greyDemineur"
+    tools:context="com.istia.groupe.myapplication.MainActivity">
+
+    <TextView
+      android:gravity="center"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:text="@string/nbBombs"
+      />
+
+    <EditText
+      android:id="@+id/edittext_bombs"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="25sp"
+      android:gravity="center"
+      android:inputType="number"
+      />
+
+  </LinearLayout>
+
+  <Button
+    android:id="@+id/customplay_button"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:textSize="25sp"
+    android:text="@string/play_button"/>
+
+  <Space
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"/>
+
+</LinearLayout>
+
+</LinearLayout>
