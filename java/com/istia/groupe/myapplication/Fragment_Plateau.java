@@ -241,7 +241,34 @@ public class Fragment_Plateau extends Fragment {
                 /*TextView howManyBombs = new TextView(getContext());
                 howManyBombs.setText(String.valueOf(plateau[x][y]));
                 howManyBombs.setBackgroundColor(Color.GRAY);*/
-                casesDemineur.get(idx).setBackgroundColor(Color.BLUE);
+                casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
+                switch(plateau[x][y]){
+                    case 1 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.one);
+                        break;
+                    case 2 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.two);
+                        break;
+                    case 3 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.three);
+                        break;
+                    case 4 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.four);
+                        break;
+                    case 5 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.five);
+                        break;
+                    case 6 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.six);
+                        break;
+                    case 7 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.seven);
+                        break;
+                    case 8 :
+                        casesDemineur.get(idx).setImageResource(R.drawable.eight);
+                        break;
+
+                }
                 //gridDemineur.addView(howManyBombs, gridDemineur.indexOfChild(casesDemineur.get(idx)));
                 break;
         }
