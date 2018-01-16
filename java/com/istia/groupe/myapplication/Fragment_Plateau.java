@@ -226,40 +226,39 @@ public class Fragment_Plateau extends Fragment {
     public void displaySquare(int x, int y, int idx){
         switch(plateau[x][y]){
             case 0 :
-                casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
+                casesDemineur.get(idx).setBackgroundColor(Color.TRANSPARENT);
                 casesDemineur.get(idx).setEnabled(false);
                 break;
             case -1 :
-                casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
-                casesDemineur.get(idx).setImageResource(R.drawable.bomb);
+                casesDemineur.get(idx).setBackgroundResource(R.drawable.bomb);
                 casesDemineur.get(idx).setScaleType(ImageView.ScaleType.FIT_XY);
                 break;
             default :
                 casesDemineur.get(idx).setBackgroundColor(Color.GRAY);
                 switch(plateau[x][y]){
                     case 1 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.one);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.one);
                         break;
                     case 2 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.two);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.two);
                         break;
                     case 3 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.three);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.three);
                         break;
                     case 4 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.four);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.four);
                         break;
                     case 5 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.five);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.five);
                         break;
                     case 6 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.six);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.six);
                         break;
                     case 7 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.seven);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.seven);
                         break;
                     case 8 :
-                        casesDemineur.get(idx).setImageResource(R.drawable.eight);
+                        casesDemineur.get(idx).setBackgroundResource(R.drawable.eight);
                         break;
 
                 }

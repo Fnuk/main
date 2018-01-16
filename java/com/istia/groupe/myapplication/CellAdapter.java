@@ -56,7 +56,7 @@ public class CellAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //adapt size of cell to screen
-        buttons.get(position).setScaleType(ImageView.ScaleType.FIT_XY);
+        buttons.get(position).setScaleType(ImageView.ScaleType.CENTER);
         buttons.get(position).setMinimumHeight(((height/2)/((int)Math.sqrt(buttons.size())))+10);
         return buttons.get(position);
     }
