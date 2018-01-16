@@ -1,5 +1,6 @@
 package com.istia.groupe.myapplication;
 
+import android.util.Log;
 import android.util.Pair;
 
 import java.lang.reflect.Array;
@@ -116,6 +117,7 @@ public class Plateau {
                         }
                     }
                 } catch(ArrayIndexOutOfBoundsException ex) {
+
                     continue;
                 }
             }

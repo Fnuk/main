@@ -23,7 +23,7 @@ public class FragmentTableauHighScore extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private int maxNumberOfHighScore = 25;
+    private int maxNumberOfHighScore = 3;
     private Long[] highScores;
 
     public static FragmentTableauHighScore newInstance(String difficulty) {
@@ -83,8 +83,7 @@ public class FragmentTableauHighScore extends Fragment {
                 // on incrémente la variable du classement pour l'itération suivante
                 place++;
             }
-            // On trie la nouvelle liste des classements pour voir où se trouve le nouvel élément
-            Collections.sort(ranking);
+
             return ranking;
         } else {
             return null;
@@ -92,13 +91,20 @@ public class FragmentTableauHighScore extends Fragment {
     }
 
     public void saveScore(long time) {
-        ArrayList<Long> ranking = new ArrayList<>();
         Context context = getActivity();
         SharedPreferences sharedPref = context.getSharedPreferences(
                 getString(R.string.high_score_save_file), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-            // on limite la taille du classement
+
+        ArrayList<Long> ranking = getHighScores(this.difficulty);
+        ranking.add(time);
+        // On trie la nouvelle liste des classements
+        Collections.sort(ranking);
+        // on limite la taille du classement
         int size = (ranking.size() <= maxNumberOfHighScore) ? ranking.size() : maxNumberOfHighScore;
+        if(ranking.size() >= maxNumberOfHighScore) {
+            ranking.remove(ranking.size()-1);
+        }
         for(int i=1;i<size;i++) {
             // Début à 1 car le -1L (pas de temps négatif donc -1L se retrouve en 1er)
             // par défaut a été ajouté à la liste

@@ -28,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
 //      Test classe plateau
 
       Plateau plat = Plateau.getInstance();
-      plat.init(8,8,2);
+      plat.init(4,4,1);
       Log.i("PLATEAU", plat.toString());
-      plat.getSafeZone(5,1);
+      int[][] test =  plat.getSafeZone(2,2);
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//    Fragment_Plateau fragment = new Fragment_Plateau();
-    FragmentTableauHighScore fragment = new FragmentTableauHighScore();
+    Fragment_Plateau fragment = new Fragment_Plateau();
+//    FragmentTableauHighScore fragment = new FragmentTableauHighScore();
     fragmentTransaction.add(R.id.fragment_container, fragment);
     fragmentTransaction.commit();
   }

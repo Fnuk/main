@@ -38,8 +38,8 @@ public class Fragment_Plateau extends Fragment {
 
     private View view;
     private GridView gridDemineur = null;
-    private int rows = 8;
-    private int columns = 8;
+    private int rows = 3;
+    private int columns = 3;
     private int height, width, nbBombs;
     private Point size = new Point();
     private int clickChoice = 0;
@@ -236,9 +236,10 @@ public class Fragment_Plateau extends Fragment {
     private int findButtonId(int x, int y){
         int idx = -1;
         for(DemineurButton db : casesDemineur){
-            if(db.getCoordX() == x && db.getCoordY()== y)
-                Log.i("ID :", db.getId()+"");
+            if(db.getCoordX() == x && db.getCoordY()== y) {
+//                Log.i("ID :", db.getId()+"");
                 idx = casesDemineur.indexOf(db);
+            }
         }
 
         return idx;
