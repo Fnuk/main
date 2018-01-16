@@ -17,7 +17,7 @@ import java.util.Collections;
 
 public class FragmentTableauHighScore extends Fragment {
 
-    private static final String ARG_PARAM1 = "difficulty";
+    private static final String ARG_PARAM1 = "difficulty"; // facile, moyen, difficile
     private String difficulty;
 
     private RecyclerView recyclerView;
@@ -54,8 +54,9 @@ public class FragmentTableauHighScore extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         // specify an adapter
-
-        adapter = new HighScoreAdapter(new String[] {"coucou"}); // Récuperer les données bia SharedPref
+        ArrayList<Long> holder = getHighScores(difficulty);
+        highScores = holder.toArray(new Long[holder.size()]);
+        adapter = new HighScoreAdapter(highScores); // Récuperer les données bia SharedPref
         recyclerView.setAdapter(adapter);
         return view;
     }
@@ -68,9 +69,8 @@ public class FragmentTableauHighScore extends Fragment {
         Context context = getActivity();
         SharedPreferences sharedPref = context.getSharedPreferences(
                 getString(R.string.high_score_save_file), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
         if(!this.difficulty.equals("custom")) {
-            // difficulty : facile, intermediaire, difficile
+            // difficulty : facile, moyen, difficile
             while (!t.equals(-1L) && place <= maxNumberOfHighScore) {
                 // la clé prend la forme : facile1, facile2, facile3, ... (remplacer facile par la
                 // difficulté choisie) ; le nombre étant le classement du temps (score) correspondant
@@ -101,11 +101,10 @@ public class FragmentTableauHighScore extends Fragment {
         // On trie la nouvelle liste des classements
         Collections.sort(ranking);
         // on limite la taille du classement
-        int size = (ranking.size() <= maxNumberOfHighScore) ? ranking.size() : maxNumberOfHighScore;
         if(ranking.size() >= maxNumberOfHighScore) {
             ranking.remove(ranking.size()-1);
         }
-        for(int i=1;i<size;i++) {
+        for(int i=1;i<ranking.size();i++) {
             // Début à 1 car le -1L (pas de temps négatif donc -1L se retrouve en 1er)
             // par défaut a été ajouté à la liste
             // on ajoute les temps dans le fichier de préférences avec la clé corespondant à leur classement

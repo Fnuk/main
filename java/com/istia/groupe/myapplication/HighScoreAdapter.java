@@ -15,7 +15,7 @@ import org.w3c.dom.Text;
 
 public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>{
 
-    String[] times;
+    Long[] times;
 
     public static class HighScoreViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewNum;
@@ -27,7 +27,7 @@ public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.High
         }
     }
 
-    public HighScoreAdapter(String[] datas) {
+    public HighScoreAdapter(Long[] datas) {
         this.times = datas;
     }
 
@@ -46,7 +46,7 @@ public class HighScoreAdapter extends RecyclerView.Adapter<HighScoreAdapter.High
     public void onBindViewHolder(HighScoreViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textViewTime.setText(times[position]);
+        holder.textViewTime.setText(Long.toString(times[position]));
         holder.textViewNum.setText(Integer.toString(position+1));
     }
 
