@@ -1,9 +1,7 @@
 package com.istia.groupe.myapplication;
 
 import android.util.Log;
-import android.util.Pair;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,6 +17,7 @@ public class Plateau {
     private ArrayList<CoordsXY> incorrectFlaggedCases; // Liste des cases NON BOMBES ayant un indicateur flag(bombe) placé par le joueur
     private int rows, cols;
     private int nbBombe;
+    private String difficulty;
 
     private static Plateau instance = null;
 
@@ -33,8 +32,9 @@ public class Plateau {
 
     private Plateau() {}
 
-    public void init(int rows, int cols, int nbBombe) {
+    public void init(int rows, int cols, int nbBombe, String dif) {
         // Création des caracs du plateau
+        this.difficulty = dif;
         this.rows = rows;
         this.cols = cols;
         this.setNbBombe(nbBombe);
@@ -130,6 +130,12 @@ public class Plateau {
         } else {
             incorrectFlaggedCases.add(new CoordsXY(xpos, ypos));
         }
+        for(CoordsXY xy : correctFlaggedCases) {
+            Log.i("correctBomb", xy.toString());
+        }
+        for(CoordsXY xy : incorrectFlaggedCases) {
+            Log.i("incorrectBomb", xy.toString());
+        }
     }
 
     public void removeBombFlag(int xpos, int ypos) {
@@ -145,6 +151,12 @@ public class Plateau {
                 correctFlaggedCases.remove(index);
             }
         }
+        for(CoordsXY a : correctFlaggedCases) {
+            Log.i("correctBomb", a.toString());
+        }
+        for(CoordsXY a : incorrectFlaggedCases) {
+            Log.i("incorrectBomb", a.toString());
+        }
     }
 
     public boolean checkVictory() {
@@ -156,6 +168,15 @@ public class Plateau {
     }
 
 //    GETTERS ; SETTERS
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
     public int[][] getPlateau() {
         return plateau;
     }

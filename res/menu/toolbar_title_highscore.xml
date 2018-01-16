@@ -8,4 +8,12 @@
     android:icon="@android:drawable/ic_menu_revert"
     app:showAsAction="ifRoom"
     />
+
+  <item
+      android:title="@string/reset_toolbarButton"
+      android:icon="@android:drawable/ic_menu_rotate"
+      android:id="@+id/reset_hstoolbarAction"
+      android:orderInCategory="99"
+      app:showAsAction="ifRoom"
+      />
 </menu>

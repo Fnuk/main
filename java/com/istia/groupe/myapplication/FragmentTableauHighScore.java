@@ -34,7 +34,7 @@ public class FragmentTableauHighScore extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private int maxNumberOfHighScore = 3;
+    private int maxNumberOfHighScore = 10;
     private ArrayList<Long> highScores;
     private ImageButton leftArrow, rightArrow;
     private TextView txtViewDifficulty;
@@ -81,7 +81,7 @@ public class FragmentTableauHighScore extends Fragment {
         this.difficulty = "moyen";
         highScores = PreferenceManager.getInstance()
                 .getHighScores(this.difficulty, getActivity(), maxNumberOfHighScore);
-
+        highScores.remove(highScores.size()-1);
         adapter = new HighScoreAdapter(highScores);
         recyclerView.setAdapter(adapter);
 
@@ -96,8 +96,7 @@ public class FragmentTableauHighScore extends Fragment {
                     case "moyen":
                         difficulty = "facile";
                         highScores = PreferenceManager.getInstance()
-                                .getHighScores(difficulty, getActivity(), maxNumberOfHighScore);
-                        adapter.notifyDataSetChanged();
+                                .getHighScores(difficulty, getActivity(),maxNumberOfHighScore);
                         txtViewDifficulty.setText(getActivity().getString(R.string.easymode_button));
                         break;
                     case "difficile":
@@ -108,6 +107,9 @@ public class FragmentTableauHighScore extends Fragment {
                         txtViewDifficulty.setText(getActivity().getString(R.string.mediummode_button));
                         break;
                 }
+                highScores.remove(highScores.size()-1);
+                adapter = new HighScoreAdapter(highScores);
+                recyclerView.setAdapter(adapter);
             }
         });
         rightArrow.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +122,7 @@ public class FragmentTableauHighScore extends Fragment {
                                 .getHighScores(difficulty, getActivity(), maxNumberOfHighScore);
                         adapter.notifyDataSetChanged();
                         txtViewDifficulty.setText(getActivity().getString(R.string.mediummode_button));
+                        Log.i("TAG", ""+System.currentTimeMillis());
                         break;
                     case "moyen":
                         difficulty = "difficile";
@@ -129,6 +132,9 @@ public class FragmentTableauHighScore extends Fragment {
                         txtViewDifficulty.setText(getActivity().getString(R.string.hardmode_button));
                         break;
                 }
+                highScores.remove(highScores.size()-1);
+                adapter = new HighScoreAdapter(highScores);
+                recyclerView.setAdapter(adapter);
             }
         });
 
@@ -151,6 +157,10 @@ public class FragmentTableauHighScore extends Fragment {
                 Title_Screen fragment = new Title_Screen();
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
                 fragmentTransaction.commit();
+                break;
+
+            case R.id.reset_hstoolbarAction:
+                PreferenceManager.getInstance().clearHighScores(getActivity());
                 break;
         }
         return true;

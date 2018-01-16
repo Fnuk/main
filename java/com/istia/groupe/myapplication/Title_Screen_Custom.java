@@ -68,7 +68,7 @@ public class Title_Screen_Custom extends Fragment implements View.OnClickListene
 
         isOneEmpty = row.isEmpty() || col.isEmpty() || bombs.isEmpty();
 
-        if(!isOneEmpty) plat.init(Integer.parseInt(row), Integer.parseInt(col), Integer.parseInt(bombs));
+        if(!isOneEmpty) plat.init(Integer.parseInt(row), Integer.parseInt(col), Integer.parseInt(bombs), "custom");
         else
         {
           Toast.makeText(getContext(), getResources().getText(R.string.pleasefillall), Toast.LENGTH_LONG).show();

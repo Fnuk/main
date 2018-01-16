@@ -60,13 +60,13 @@ public class Title_Screen_ChooseDif extends Fragment implements View.OnClickList
     switch (v.getId())
     {
       case R.id.easy_titleButton:
-        plat.init(8, 8, 10);
+        plat.init(8, 8, 10, "facile");
         break;
       case R.id.medium_titleButton:
-        plat.init(16, 16, 40);
+        plat.init(16, 16, 40, "moyen");
         break;
       case R.id.hard_titleButton:
-        plat.init(32, 16, 99);
+        plat.init(32, 16, 99, "difficile");
         break;
       case R.id.custom_titleButton:
         fragmentTransaction = fragmentManager.beginTransaction();
