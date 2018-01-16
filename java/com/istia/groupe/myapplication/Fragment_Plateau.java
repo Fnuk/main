@@ -63,6 +63,7 @@ public class Fragment_Plateau extends Fragment {
     private ImageButton handButton = null,
             flagButton = null,
             bombButton = null;
+    private Long beginTime;
 
     public Fragment_Plateau() {
         // Required empty public constructor
@@ -71,6 +72,9 @@ public class Fragment_Plateau extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //Lancement du timer
+        beginTime = System.currentTimeMillis();
 
         //On récupère les infos depuis le plateau
         columns = Plateau.getInstance().getCols();
@@ -160,7 +164,7 @@ public class Fragment_Plateau extends Fragment {
                                     nbBombs++;
                                 }
                                 if(Plateau.getInstance().checkVictory()){
-                                    PreferenceManager.getInstance().saveScore(3L, Plateau.getInstance().getDifficulty() , getActivity());
+                                    PreferenceManager.getInstance().saveScore(System.currentTimeMillis()-beginTime, Plateau.getInstance().getDifficulty() , getActivity());
                                     createAlertDialog("Vous avez gagné !", "Recommencer", "Accueil");
                                 }
                                 break;
@@ -286,7 +290,6 @@ public class Fragment_Plateau extends Fragment {
                 idx = casesDemineur.indexOf(db);
             }
         }
-
         return idx;
     }
 
@@ -384,5 +387,7 @@ public class Fragment_Plateau extends Fragment {
         return true;
     }
     //FIN NE PAS SUPPRIMER
+
+//    private class
 
 }

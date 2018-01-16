@@ -130,12 +130,6 @@ public class Plateau {
         } else {
             incorrectFlaggedCases.add(new CoordsXY(xpos, ypos));
         }
-        for(CoordsXY xy : correctFlaggedCases) {
-            Log.i("correctBomb", xy.toString());
-        }
-        for(CoordsXY xy : incorrectFlaggedCases) {
-            Log.i("incorrectBomb", xy.toString());
-        }
     }
 
     public void removeBombFlag(int xpos, int ypos) {
@@ -150,12 +144,6 @@ public class Plateau {
             if(index != -1) {
                 correctFlaggedCases.remove(index);
             }
-        }
-        for(CoordsXY a : correctFlaggedCases) {
-            Log.i("correctBomb", a.toString());
-        }
-        for(CoordsXY a : incorrectFlaggedCases) {
-            Log.i("incorrectBomb", a.toString());
         }
     }
 

@@ -1,9 +1,6 @@
 package com.istia.groupe.myapplication;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -161,6 +158,8 @@ public class FragmentTableauHighScore extends Fragment {
 
             case R.id.reset_hstoolbarAction:
                 PreferenceManager.getInstance().clearHighScores(getActivity());
+                adapter = new HighScoreAdapter(highScores);
+                recyclerView.setAdapter(adapter);
                 break;
         }
         return true;

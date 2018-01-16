@@ -28,6 +28,7 @@ public class PreferenceManager {
     private PreferenceManager() {}
 
     public void saveScore(long time, String difficulty, Activity context) {
+        time = time/1000;
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.high_score_save_file), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
