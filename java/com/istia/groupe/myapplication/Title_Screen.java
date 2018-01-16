@@ -24,7 +24,14 @@ public class Title_Screen extends Fragment implements View.OnClickListener
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
   {
     // Inflate the layout for this fragment
-    view = inflater.inflate(R.layout.fragment_fragment__plateau, container, false);
+    view = inflater.inflate(R.layout.fragment_title_screen, container, false);
+
+    Toolbar toolbar  = (Toolbar) view.findViewById(R.id.toolbar);
+    if(toolbar != null)
+    {
+      ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+      ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
 
     return view;
   }
@@ -32,5 +39,13 @@ public class Title_Screen extends Fragment implements View.OnClickListener
   @Override
   public void onClick(View v) {
 
+  }
+
+  public Toolbar getToolbar()
+  {
+    Toolbar tb = (Toolbar) getView().findViewById(R.id.toolbar);
+
+    if(tb != null) return tb;
+    else return null;
   }
 }
