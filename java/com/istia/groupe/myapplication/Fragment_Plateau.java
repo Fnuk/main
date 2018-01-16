@@ -130,7 +130,7 @@ public class Fragment_Plateau extends Fragment {
                         bombsCounter.setText(String.valueOf(nbBombs));
                     }
                 });
-                myButton.setBackgroundColor(Color.GRAY);
+                //myButton.setBackgroundColor(Color.GRAY);
                 gridDemineur.addView(myButton, (height/rows)/2, (width/columns)/2);
 
 
